@@ -4470,7 +4470,7 @@ def run_aspen_simulation():
                 "result_file_path": result_absolute_path,
                 "message": "Aspen模拟已成功运行并保存"
             })
-        elif "**  ERROR" or "*** SEVERE ERROR" in current_messages_str:
+        elif "**  ERROR" in current_messages_str or "*** SEVERE ERROR" in current_messages_str:
             return jsonify({
                 "success": False,
                 "aspen_file_path": str(output_file_path),
@@ -4478,6 +4478,15 @@ def run_aspen_simulation():
                 "error_type": "模拟运行过程发生错误",
                 "error_message": current_messages_str
             }), 201
+        else:
+            # 没有严重错误 -> 视为成功（可能有 WARNING 但不影响）
+            return jsonify({
+                "success": True,
+                "aspen_file_path": str(output_file_path),
+                "config_file_path": str(config_file_path),
+                "result_file_path": result_absolute_path,
+                "message": "模拟已完成（无严重错误）"
+            })
     except Exception as e:
         # 获取ASPEN控制面板消息
         current_messages_str = aspen_manager.get_control_panel_messages()
