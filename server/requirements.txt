@@ -1,0 +1,18 @@
+# Aspen Agent 服务依赖
+
+# Flask Web 框架
+Flask>=2.3.0
+
+# Windows COM 接口 (用于与 Aspen Plus 通信)
+pywin32>=306
+
+# 数据处理
+pandas>=2.0.0
+openpyxl>=3.1.0
+
+# 环境变量管理
+python-dotenv>=1.0.0
+
+# SSL/TLS 支持
+cryptography>=41.0.0
+pyOpenSSL>=23.0.0

@@ -1,0 +1,169 @@
+{
+  "blocks_Flash2_data": {
+    "type": "object",
+    "description": "闪蒸罐配置数据",
+    "patternProperties": {
+      "^[A-Z][0-9A-Z]*$": {
+        "type": "object",
+        "properties": {
+          "SPEC_DATA": {
+            "type": "object",
+            "properties": {
+              "SPEC_OPT": {
+                "type": "string",
+                "enum": [
+                  "PD",
+                  "TD",
+                  "TP",
+                  "TV",
+                  "PV"
+                ],
+                "description": "规格选项",
+                "enumDescriptions": {
+                  "PD": "负荷压力",
+                  "TD": "温度负荷",
+                  "TP": "温度压力",
+                  "TV": "温度汽相分率",
+                  "PV": "压力汽相分率"
+                }
+              },
+              "TEMP_VALUE": {
+                "type": "number",
+                "description": "规定-温度"
+              },
+              "TEMP_UNITS": {
+                "type": "string",
+                "enum": [
+                  "C",
+                  "K",
+                  "F",
+                  "R"
+                ],
+                "description": "规定-温度单位",
+                "default": "C"
+              },
+              "VFRAC_VALUE": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "description": "规定-汽相分率"
+              },
+              "PRES_VALUE": {
+                "type": "number",
+                "description": "规定-压力"
+              },
+              "PRES_UNITS": {
+                "type": "string",
+                "description": "规定-压力单位",
+                "default": "Mpa"
+              },
+              "DUTY_VALUE": {
+                "type": "number",
+                "description": "规定-负荷"
+              },
+              "DUTY_UNITS": {
+                "type": "string",
+                "description": "规定-负荷单位",
+                "default": "kW"
+              }
+            },
+            "required": [
+              "SPEC_OPT"
+            ],
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "SPEC_OPT": {
+                      "const": "PD"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "DUTY_VALUE",
+                    "DUTY_UNITS",
+                    "PRES_VALUE",
+                    "PRES_UNITS"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "SPEC_OPT": {
+                      "const": "TD"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "TEMP_VALUE",
+                    "TEMP_UNITS",
+                    "DUTY_VALUE",
+                    "DUTY_UNITS"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "SPEC_OPT": {
+                      "const": "TP"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "TEMP_VALUE",
+                    "TEMP_UNITS",
+                    "PRES_VALUE",
+                    "PRES_UNITS"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "SPEC_OPT": {
+                      "const": "TV"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "TEMP_VALUE",
+                    "TEMP_UNITS",
+                    "VFRAC_VALUE"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "SPEC_OPT": {
+                      "const": "PV"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "PRES_VALUE",
+                    "PRES_UNITS",
+                    "VFRAC_VALUE"
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        "required": [
+          "SPEC_DATA"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "additionalProperties": false
+  }
+}

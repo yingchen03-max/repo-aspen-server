@@ -1,0 +1,309 @@
+{
+  "convergence": {
+      "type": "object",
+      "description": "流程收敛配置",
+      "required": [
+          "conv_options",
+          "tear_data"
+      ],
+      "properties": {
+          "conv_options": {
+              "type": "object",
+              "description": "收敛算法选项",
+              "properties": {
+                  "tol": {
+                      "type": "number",
+                      "description": "默认值-撕裂收敛-容差"
+                  },
+                  "trace": {
+                      "type": "integer",
+                      "description": "默认值-撕裂收敛-跟踪"
+                  },
+                  "traceopt": {
+                      "type": "integer",
+                      "description": "默认值-撕裂收敛-跟踪选项"
+                  },
+                  "comps": {
+                      "type": "integer",
+                      "description": "默认值-撕裂收敛-组分"
+                  },
+                  "state": {
+                      "type": "integer",
+                      "description": "默认值-撕裂收敛-状态"
+                  },
+                  "flash": {
+                      "type": "integer",
+                      "description": "默认值-撕裂收敛-闪蒸"
+                  },
+                  "update": {
+                      "type": "integer",
+                      "description": "默认值-撕裂收敛-更新"
+                  },
+                  "variterhist": {
+                      "type": "integer",
+                      "description": "默认值-撕裂收敛-变量迭代历史"
+                  },
+                  "tear_method": {
+                      "type": "string",
+                      "description": "默认方法-撕裂流收敛方法",
+                      "enum": [
+                          "WEGSTEIN",
+                          "NEWTON",
+                          "BROYDEN",
+                          "DIRECT",
+                          "SECANT"
+                      ],
+                      "default": "WEGSTEIN",
+                      "enumDescriptions": {
+                          "WEGSTEIN": "韦格斯坦法 - 适用于大多数单变量收敛问题，收敛速度稳定",
+                          "NEWTON": "牛顿法 - 需要导数信息，收敛速度快但计算量较大",
+                          "BROYDEN": "布罗伊登法 - 准牛顿法，适用于多变量问题",
+                          "DIRECT": "直接迭代法 - 简单但可能收敛较慢",
+                          "SECANT": "割线法 - 不需要导数信息的牛顿法近似"
+                      }
+                  },
+                  "spec_method": {
+                      "type": "string",
+                      "description": "默认方法-规定方法"
+                  },
+                  "mspec_method": {
+                      "type": "string",
+                      "description": "默认方法-多规定方法"
+                  },
+                  "comb_method": {
+                      "type": "string",
+                      "description": "默认方法-组合方法"
+                  },
+                  "opt_method": {
+                      "type": "string",
+                      "description": "默认方法-优化方法"
+                  },
+                  "spec_loop": {
+                      "type": "integer",
+                      "description": "顺序确定-规定循环"
+                  },
+                  "user_loop": {
+                      "type": "integer",
+                      "description": "顺序确定-用户循环"
+                  },
+                  "tear_weight": {
+                      "type": "number",
+                      "description": "顺序确定-撕裂权重"
+                  },
+                  "loop_weight": {
+                      "type": "number",
+                      "description": "顺序确定-循环权重"
+                  },
+                  "affect": {
+                      "type": "integer",
+                      "description": "顺序确定-影响"
+                  },
+                  "checkseq": {
+                      "type": "integer",
+                      "description": "顺序确定-检查序列"
+                  },
+                  "tear_var": {
+                      "type": "integer",
+                      "description": "顺序确定-撕裂变量"
+                  },
+                  "weg_maxit": {
+                      "type": "integer",
+                      "description": "方法-Wegstein-最大迭代次数"
+                  },
+                  "weg_wait": {
+                      "type": "integer",
+                      "description": "方法-Wegstein-等待"
+                  },
+                  "accelerate": {
+                      "type": "integer",
+                      "description": "方法-Wegstein-加速"
+                  },
+                  "naccelerate": {
+                      "type": "integer",
+                      "description": "方法-Wegstein-不加速"
+                  },
+                  "weg_qmin": {
+                      "type": "number",
+                      "description": "方法-Wegstein-Q最小值"
+                  },
+                  "weg_qmax": {
+                      "type": "number",
+                      "description": "方法-Wegstein-Q最大值"
+                  },
+                  "dir_maxit": {
+                      "type": "integer",
+                      "description": "方法-直接-最大迭代次数"
+                  },
+                  "sec_maxit": {
+                      "type": "integer",
+                      "description": "方法-正割-最大迭代次数"
+                  },
+                  "step_siz": {
+                      "type": "number",
+                      "description": "方法-正割-步长"
+                  },
+                  "sec_xtol": {
+                      "type": "number",
+                      "description": "方法-正割-X容差"
+                  },
+                  "xfinal": {
+                      "type": "number",
+                      "description": "方法-正割-最终X值"
+                  },
+                  "bracket": {
+                      "type": "integer",
+                      "description": "方法-正割-括号"
+                  },
+                  "stop": {
+                      "type": "integer",
+                      "description": "方法-正割-停止"
+                  },
+                  "br_maxit": {
+                      "type": "integer",
+                      "description": "方法-Broyden-最大迭代次数"
+                  },
+                  "br_xtol": {
+                      "type": "number",
+                      "description": "方法-Broyden-X容差"
+                  },
+                  "br_wait": {
+                      "type": "integer",
+                      "description": "方法-Broyden-等待"
+                  },
+                  "new_maxit": {
+                      "type": "integer",
+                      "description": "方法-Newton-最大迭代次数"
+                  },
+                  "new_maxpass": {
+                      "type": "integer",
+                      "description": "方法-Newton-最大通过次数"
+                  },
+                  "new_wait": {
+                      "type": "integer",
+                      "description": "方法-Newton-等待"
+                  },
+                  "new_xtol": {
+                      "type": "number",
+                      "description": "方法-Newton-X容差"
+                  },
+                  "opt_n_jac": {
+                      "type": "string",
+                      "description": "方法-Newton-雅可比选项（REUSE-ITNS,RED-FACTOR）"
+                  },
+                  "red_factor": {
+                      "type": "number",
+                      "description": "方法-Newton-缩减因子"
+                  },
+                  "reinit": {
+                      "type": "integer",
+                      "description": "方法-Newton-重新初始化"
+                  },
+                  "sqp_maxit": {
+                      "type": "integer",
+                      "description": "方法-SQP-最大迭代次数"
+                  },
+                  "sqp_maxpass": {
+                      "type": "integer",
+                      "description": "方法-SQP-最大通过次数"
+                  },
+                  "const_iter": {
+                      "type": "integer",
+                      "description": "方法-SQP-约束迭代"
+                  },
+                  "maxlspass": {
+                      "type": "integer",
+                      "description": "方法-SQP-最大LS通过次数"
+                  },
+                  "nlimit": {
+                      "type": "integer",
+                      "description": "方法-SQP-N限制"
+                  },
+                  "sqp_tol": {
+                      "type": "number",
+                      "description": "方法-SQP-容差"
+                  },
+                  "sqp_wait": {
+                      "type": "integer",
+                      "description": "方法-SQP-等待"
+                  },
+                  "sqp_qmin": {
+                      "type": "number",
+                      "description": "方法-SQP-Q最小值"
+                  },
+                  "sqp_qmax": {
+                      "type": "number",
+                      "description": "方法-SQP-Q最大值"
+                  },
+                  "boby_maxit": {
+                      "type": "integer",
+                      "description": "方法-BOBYQA-最大迭代次数"
+                  },
+                  "nconditions": {
+                      "type": "integer",
+                      "description": "方法-BOBYQA-条件数"
+                  },
+                  "init_region": {
+                      "type": "number",
+                      "description": "方法-BOBYQA-初始区域"
+                  },
+                  "final_region": {
+                      "type": "number",
+                      "description": "方法-BOBYQA-最终区域"
+                  },
+                  "initpref": {
+                      "type": "number",
+                      "description": "方法-BOBYQA-初始偏好"
+                  },
+                  "prefgrowi": {
+                      "type": "number",
+                      "description": "方法-BOBYQA-偏好增长初始值"
+                  },
+                  "prefgrowf": {
+                      "type": "number",
+                      "description": "方法-BOBYQA-偏好增长最终值"
+                  },
+                  "eqpentyp": {
+                      "type": "string",
+                      "description": "方法-BOBYQA-等式惩罚类型"
+                  },
+                  "ineqpentyp": {
+                      "type": "string",
+                      "description": "方法-BOBYQA-不等式惩罚类型"
+                  },
+                  "penscl": {
+                      "type": "number",
+                      "description": "方法-BOBYQA-惩罚缩放"
+                  }
+              }
+          },
+          "tear_data": {
+              "type": "array",
+              "description": "撕裂流数据配置",
+              "minItems": 1,
+              "items": {
+                  "type": "object",
+                  "description": "单个撕裂流配置",
+                  "required": [
+                      "tear_stream_name",
+                      "tear_stream_tol"
+                  ],
+                  "properties": {
+                      "tear_stream_name": {
+                          "type": "string",
+                          "description": "撕裂流股名称（Aspen中的流股标识符）",
+                          "pattern": "^[A-Za-z0-9_-]+$",
+                          "minLength": 1
+                      },
+                      "tear_stream_tol": {
+                          "type": "number",
+                          "description": "该撕裂流收敛容差",
+                          "minimum": 1e-10,
+                          "maximum": 1e-2,
+                          "default": 0.0001
+                      }
+                  }
+              }
+          }
+      }
+  }
+}

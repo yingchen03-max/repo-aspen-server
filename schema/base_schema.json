@@ -1,0 +1,445 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "https://example.com/process-flow-schema.json",
+	"title": "工艺流股数据模型",
+	"description": "定义化工工艺流股、设备单元和连接的完整数据模型",
+	"type": "object",
+	"required": ["components", "property_methods", "blocks", "streams", "block_connections", "stream_data"],
+	"properties": {
+		"metadata": {
+			"type": "object",
+			"description": "元数据信息",
+			"properties": {
+				"description": {
+					"type": "string",
+					"description": "模拟描述"
+				}
+			}
+		},
+		"components": {
+			"type": "array",
+			"description": "工艺中涉及的化学组分列表",
+			"items": {
+				"type": "object",
+				"required": [
+					"cid",
+					"name",
+					"cas_number",
+					"database_name"
+				],
+				"properties": {
+					"cid": {
+						"type": "string",
+						"description": "组分唯一标识符，用组分的英文简写表示，长度必须小于8"
+					},
+					"name": {
+						"type": "string",
+						"description": "组分的化学式别名，通常写分子式，如C3H6的别名为C3H6-2，苯乙烯的别名为C8H8"
+					},
+					"cas_number": {
+						"type": "string",
+						"description": "CAS登记号"
+					},
+					"database_name": {
+						"type": "string",
+						"description": "数据库中的名称"
+					}
+				}
+			}
+		},
+		"setup": {
+			"type": "object",
+			"description": "设置数据",
+			"properties": {
+				"sim_options": {
+					"type": "object",
+					"description": "计算选项配置",
+					"properties": {
+						"energy_bal_value": {
+							"type": "string",
+							"description": "执行热量平衡计算"
+						}
+					}
+				}
+			}
+		},
+		"property_methods": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"method_name": {
+						"type": "string",
+						"description": "物性方法名称，如UNIQUAC、NRTL、PENG-ROB等",
+						"enum": [
+							"UNIQUAC",
+							"NRTL",
+							"CHAO-SEA",
+							"PENG-ROB",
+							"RK-SOAVE",
+							"SRK",
+							"WILSON",
+							"VAN-LAAR",
+							"IDEAL",
+							"UNIFAC"
+						]
+					},
+					"is_basis_method": {
+						"type": "boolean",
+						"description": "是否为主物性方法"
+					}
+				},
+				"required": [
+					"method_name",
+					"is_basis_method"
+				],
+				"additionalProperties": false
+			},
+			"minItems": 1,
+			"maxItems": 10,
+			"uniqueItems": true
+		},
+		"henry_components": {
+			"type": "object",
+			"description": "Henry组分数据",
+			"patternProperties": {
+				"^[A-Za-z0-9_-]+$": {
+					"type": "object",
+					"properties": {
+						"components": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"node": {
+										"type": "string",
+										"description": "节点名称"
+									},
+									"formula": {
+										"type": "string",
+										"description": "化学式"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"blocks": {
+			"type": "array",
+			"description": "工艺设备单元列表",
+			"items": {
+				"type": "object",
+				"required": [
+					"name",
+					"type"
+				],
+				"properties": {
+					"name": {
+						"type": "string",
+						"pattern": "^[A-Z][0-9A-Z]*$",
+						"description": "设备单元名称,格式为：大写字母+数字（例如：B1）"
+					},
+					"type": {
+						"type": "string",
+						"enum": [
+							"Mixer",
+							"RadFrac",
+							"Valve",
+							"Compr",
+							"MCompr",
+							"Heater",
+							"Pump",
+							"RStoic",
+							"RPlug",
+							"RCSTR",
+							"Flash2",
+							"Flash3",
+							"Decanter",
+							"Sep2",
+							"Sep",
+							"Distl",
+							"Dupl",
+							"Extract",
+							"FSplit",
+							"DSTWU",
+							"HeatX"
+						],
+						"description": "设备类型",
+						"enumDescriptions": {
+							"Mixer": "混合器,通常有多个进口（F(IN)）和一个出口（P(OUT)）。我们可以将循环物流连接到其中一个进口",
+							"RadFrac": "精馏塔,精馏塔的端口较多，包括进料口：F(IN)、塔顶气相出口：VD(OUT)（气相产品）、塔顶液相出口：LD(OUT)（回流液，也可作为产品，常被循环使用）、塔底出口：B(OUT)",
+							"Distl": "精馏塔（Distl），用于精馏分离，通常有进口F(IN)和产品出口P(OUT)（具体端口以block_connections为准理解）",
+							"Dupl": "塔器/列模型（Dupl），用于特定塔器计算，端口与连接按block_connections枚举进行配置",
+							"Extract": "萃取塔（Extract），用于液液萃取分离，端口与连接按block_connections枚举进行配置",
+							"FSplit": "分流器（FSplit），用于将进料拆分为多股出口物流，端口与连接按block_connections枚举进行配置",
+							"Valve": "阀门，通常有进口F(IN)和出口P(OUT)。出口物流可以被循环使用，常用于压力控制循环系统",
+							"Compr": "压缩机，用于气相物流的压力提升，通常有进口F(IN)和出口P(OUT)。出口的高压气相物流可以被循环，特别是在气体循环工艺中",
+							"MCompr": "多级压缩机（MCompr），用于多级压缩过程，通常有进口F(IN)和出口P(OUT)。出口的高压气相物流可以被循环，特别是在需要多级压缩的气体循环工艺中",
+							"Heater": "加热器/冷却器，通常有热流和冷流的进出口，一般用F(IN)和P(OUT)表示。出口物流可以被循环。",
+							"Pump": "泵，通常有进口F(IN)和出口P(OUT)。出口物流可以被循环",
+							"RStoic": "化学计量反应器，通常有进口F(IN)和出口P(OUT)（或根据反应器类型有多个出口）。出口物流可以被循环",
+							"RPlug": "活塞流反应器，模拟管式反应器行为，通常有进口F(IN)和出口P(OUT)。出口物流包含反应产物和未反应原料，常被循环回反应系统",
+							"RCSTR": "全混釜反应器，模拟连续搅拌釜式反应器行为，通常有进口F(IN)和出口P(OUT)。出口物流包含反应产物和未反应原料，常被循环回反应系统",
+							"Flash2": "闪蒸罐，通常有进口F(IN)，气相出口V(OUT)和液相出口L(OUT)。这些出口都可以作为循环物流的来源",
+							"Flash3": "三相闪蒸罐（Flash3），用于将进料分离成汽相、第一液相和第二液相三相，通常有进口F(IN)、气相出口V(OUT)和两个液相出口L1(OUT)、L2(OUT)。端口与连接按block_connections枚举进行配置",
+							"Decanter": "两相液-液倾析器，用于不互溶液体的分离，通常有进口 F(IN) 和两个液相出口：L1(OUT)（通常为重相）和 L2(OUT)（通常为轻相）。这两个出口物流都可以作为循环物流的来源，例如将回收的溶剂循环回萃取过程。",
+							"Sep2": "两出口组分分离器，按照设定分离要求将进料分成两股物流，通常有进口F(IN)和两个出口：塔顶类出口O(OUT)和塔底类出口B(OUT)。两个出口都可以配置循环物料",
+							"Sep": "组分分离器，可按照组分或分率将进料分成多股出口物流，通常有进口F(IN)和多个出口，多个出口都用P(OUT)表示。所有出口物流都可以作为循环物料来源",
+							"DSTWU": "简捷法精馏塔（DSTWU），用于快速估算精馏塔的基本参数，通常有进口F(IN)和产品出口P(OUT)",
+							"HeatX": "换热器（HeatX），用于两股物流之间的热量交换，通常有热流和冷流的进出口，一般用F(IN)和P(OUT)表示"
+						}
+					}
+				}
+			}
+		},
+		"streams": {
+			"type": "array",
+			"description": "工艺流股名称列表",
+			"items": {
+				"type": "string",
+				"pattern": "^[A-Z]+-[0-9]+$",
+				"description": "流股名称，字符长度必须小于8个字符，格式为：大写字母+连字符+数字（例如：S-1、FEED-15、PRO-2），不能出现PRODUCT-1等超过8个字符的命名"
+			}
+		},
+		"block_connections": {
+			"type": "object",
+			"description": "\"设备单元之间的连接关系，设备名称必须来源于blocks，流股名称必须来源于streams，且确保所有的blocks和streams都包含。端口定义：F(IN)-进料，VD(OUT)-气相产物，LD(OUT)-液相回流产品，B(OUT)-塔底产品，P(OUT)-产品输出，V(OUT)-气相输出，L(OUT)-液相输出，O(OUT)-塔顶流出\"",
+			"patternProperties": {
+				"^[A-Z][0-9A-Z]*$": {
+					"type": "object",
+					"patternProperties": {
+						"^[A-Z]+-[0-9]+$": {
+							"type": "string",
+							"enum": [
+								"F(IN)",
+								"VD(OUT)",
+								"LD(OUT)",
+								"B(OUT)",
+								"P(OUT)",
+								"V(OUT)",
+								"L(OUT)",
+								"L1(OUT)",
+								"L2(OUT)",
+								"O(OUT)"
+							],
+							"description": "流股连接类型",
+							"enumDescriptions": {
+								"F(IN)": "进料-适用于几乎所有单元操作（混合器、反应器、塔、换热器等）",
+								"VD(OUT)": "气相产物-主要用于精馏塔，作为最终产品的气相流股",
+								"LD(OUT)": "液相回流产品-主要用于精馏塔，从塔顶采出的液相产品",
+								"B(OUT)": "塔底产品-适用于精馏塔、吸收塔、汽提塔、液液萃取塔等具有塔釜的设备，比如blocks中的Sep2",
+								"P(OUT)": "产品输出-通用名称，可用于多种设备（闪蒸罐、反应器、泵等单出口设备）",
+								"V(OUT)": "气相输出-适用于闪蒸罐、蒸发器、汽液分离器、带再沸器的塔等，不适用于精馏塔的产品流出",
+								"L(OUT)": "液相输出-适用于闪蒸罐、混合器、分离器、换热器、塔等，在精馏塔中特指回流液体",
+								"L1(OUT)": "液相输出-适用于闪蒸罐、混合器、分离器、换热器、塔等，在精馏塔中特指回流液体",
+								"L2(OUT)": "液相输出-适用于闪蒸罐、混合器、分离器、换热器、塔等，在精馏塔中特指回流液体",
+								"O(OUT)": "塔顶流出-主要用于不带冷凝器的精馏塔或简单塔，指从塔顶出来的总流出物，比如blocks中的Sep2"
+							}
+						}
+					}
+				}
+			}
+		},
+		"stream_connections": {
+			"type": "object",
+			"description": "流股连接数据",
+			"patternProperties": {
+				"^[A-Za-z0-9_-]+$": {
+					"type": "object",
+					"description": "流股连接信息",
+					"additionalProperties": {
+						"type": "string"
+					}
+				}
+			}
+		},
+		"stream_data": {
+			"type": "object",
+			"description": "流股详细数据,流股名称必须来源于streams",
+			"patternProperties": {
+				"^[A-Z][0-9A-Z]*$": {
+					"type": "object",
+					"properties": {
+						"MIXED_SPEC": {
+							"type": "string",
+							"enum": [
+								"TP",
+								"TV",
+								"PV"
+							],
+							"description": "流股规格类型",
+							"enumDescriptions": {
+								"TP": "温度压力",
+								"TV": "温度汽相分率",
+								"PV": "压力汽相分率"
+							}
+						},
+						"pressure": {
+							"type": "object",
+							"properties": {
+								"PRES_VALUE": {
+									"type": [
+										"number",
+										"null"
+									],
+									"description": "压力值"
+								},
+								"PRES_UNITS": {
+									"type": "string",
+									"description": "压力单位,优先使用MPa",
+									"default": "MPa"
+								}
+							}
+						},
+						"temperature": {
+							"type": "object",
+							"properties": {
+								"TEMP_VALUE": {
+									"type": [
+										"number",
+										"null"
+									],
+									"description": "温度值"
+								},
+								"TEMP_UNITS": {
+									"type": "string",
+									"description": "温度单位,优先使用C",
+									"default": "C"
+								}
+							}
+						},
+						"vfrac": {
+							"type": "object",
+							"properties": {
+								"VFRAC_VALUE": {
+									"type": [
+										"number",
+										"null"
+									],
+									"description": "汽相分率值"
+								}
+							}
+						}
+					},
+					"allOf": [
+						{
+							"if": {
+								"properties": {
+									"MIXED_SPEC": {
+										"const": "TP"
+									}
+								}
+							},
+							"then": {
+								"required": [
+									"pressure",
+									"temperature"
+								]
+							}
+						},
+						{
+							"if": {
+								"properties": {
+									"MIXED_SPEC": {
+										"const": "TV"
+									}
+								}
+							},
+							"then": {
+								"required": [
+									"vfrac",
+									"temperature"
+								]
+							}
+						},
+						{
+							"if": {
+								"properties": {
+									"MIXED_SPEC": {
+										"const": "PV"
+									}
+								}
+							},
+							"then": {
+								"required": [
+									"vfrac",
+									"pressure"
+								]
+							}
+						}
+					],
+					"flow": {
+						"type": "object",
+						"properties": {
+							"FLOWBASE": {
+								"type": "string",
+								"enum": [
+									"MASS",
+									"MOLE",
+									"VOLUME",
+									"STDVOL"
+								],
+								"description": "流量基准"
+							},
+							"TOTFLOW_VALUE": {
+								"type": "number",
+								"description": "总流量值"
+							},
+							"TOTFLOW_UNITS": {
+								"type": "string",
+								"description": "总流量单位",
+								"default": "kmol/hr"
+							},
+							"BASIS": {
+								"type": "string",
+								"enum": [
+									"MASS-FRAC",
+									"MOLE-FRAC",
+									"MASS-FLOW",
+									"MOLE-FLOW",
+									"STDVOL-FLOW",
+									"STDVOL-FRAC",
+									"MASS-CONC",
+									"MOLE-CONC"
+								],
+								"description": "组成基准"
+							}
+						},
+						"required": [
+							"FLOWBASE",
+							"TOTFLOW_VALUE",
+							"TOTFLOW_UNITS",
+							"BASIS"
+						],
+						"patternProperties": {
+							"^[A-Za-z0-9_-]+$": {
+								"type": "object",
+								"properties": {
+									"FLOW_VALUE": {
+										"type": "number",
+										"description": "单个组分的取值，不要包含总和取值"
+									},
+									"FLOW_UNITS": {
+										"type": "string",
+										"description": "流量单位，组成基准为分率填空字符"
+									},
+									"FLOW_BASIS": {
+										"type": "string",
+										"description": "具体组分的组成基准，与BASIS保持一致即可"
+									}
+								},
+								"required": [
+									"FLOW_VALUE",
+									"FLOW_UNITS",
+									"FLOW_BASIS"
+								]
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

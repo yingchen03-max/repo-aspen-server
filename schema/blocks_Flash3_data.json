@@ -1,0 +1,60 @@
+{
+  "blocks_Flash3_data": {
+    "type": "object",
+    "description": "三相闪蒸罐配置数据",
+    "patternProperties": {
+      "^[A-Z][0-9A-Z]*$": {
+        "type": "object",
+        "properties": {
+          "SPEC_DATA": {
+            "type": "object",
+            "properties": {
+              "SPEC_OPT": {
+                "type": "string",
+                "description": "规定-闪蒸计算类型"
+              },
+              "TEMP_VALUE": {
+                "type": "number",
+                "description": "规定-温度"
+              },
+              "TEMP_UNITS": {
+                "type": "string",
+                "description": "规定-温度单位"
+              },
+              "PRES_VALUE": {
+                "type": "number",
+                "description": "规定-压力"
+              },
+              "PRES_UNITS": {
+                "type": "string",
+                "description": "规定-压力单位"
+              },
+              "DUTY_VALUE": {
+                "type": "number",
+                "description": "规定-负载"
+              },
+              "DUTY_UNITS": {
+                "type": "string",
+                "description": "规定-负载单位"
+              },
+              "VFRAC_VALUE": {
+                "type": "number",
+                "description": "规定-汽相分率"
+              },
+              "L2_COMP": {
+                "type": "string",
+                "description": "第二液相组分"
+              }
+            },
+            "required": [
+              "SPEC_OPT"
+            ]
+          }
+        },
+        "required": [
+          "SPEC_DATA"
+        ]
+      }
+    }
+  }
+}

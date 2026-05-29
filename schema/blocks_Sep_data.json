@@ -1,0 +1,40 @@
+{
+  "blocks_Sep_data": {
+    "type": "object",
+    "description": "组分分离器配置数据",
+    "patternProperties": {
+      "^[A-Z][0-9A-Z]*$": {
+        "type": "object",
+        "properties": {
+          "SPEC_DATA": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "COMP_ID": {
+                    "type": "string"
+                  },
+                  "FLOWBASIS": {
+                    "type": "string"
+                  },
+                  "FRACS": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "COMP_ID",
+                  "FLOWBASIS"
+                ]
+              }
+            }
+          }
+        },
+        "required": [
+          "SPEC_DATA"
+        ]
+      }
+    }
+  }
+}

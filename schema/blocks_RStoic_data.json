@@ -1,0 +1,278 @@
+{
+  "blocks_RStoic_data": {
+    "type": "object",
+    "description": "化学计量反应器配置数据",
+    "patternProperties": {
+      "^[A-Za-z0-9_]+$": {
+        "type": "object",
+        "properties": {
+          "SPEC_DATA": {
+            "type": "object",
+            "properties": {
+              "SPEC_OPT": {
+                "type": "string",
+                "enum": [
+                  "TP",
+                  "DP",
+                  "TD",
+                  "TV",
+                  "PV",
+                  "DTV"
+                ],
+                "description": "规格选项",
+                "enumDescriptions": {
+                  "TP": "温度压力",
+                  "DP": "负载压力",
+                  "TD": "温度负载",
+                  "TV": "温度汽相分率",
+                  "PV": "压力汽相分率",
+                  "DTV": "温度变化汽相分率"
+                }
+              },
+              "TEMP_VALUE": {
+                "type": "number",
+                "description": "规定-温度",
+                "minimum": -273.15
+              },
+              "TEMP_UNITS": {
+                "type": "string",
+                "enum": [
+                  "C",
+                  "K",
+                  "F",
+                  "R"
+                ],
+                "description": "规定-温度单位"
+              },
+              "VFRAC_VALUE": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "description": "规定-汽相分率"
+              },
+              "PRES_VALUE": {
+                "type": "number",
+                "description": "规定-压力",
+                "minimum": 0
+              },
+              "PRES_UNITS": {
+                "type": "string",
+                "description": "规定-压力单位"
+              },
+              "DUTY_VALUE": {
+                "type": "number",
+                "description": "规定-负载"
+              },
+              "DUTY_UNITS": {
+                "type": "string",
+                "description": "规定-负载单位"
+              }
+            },
+            "required": [
+              "SPEC_OPT"
+            ],
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "SPEC_OPT": {
+                      "const": "TP"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "TEMP_VALUE",
+                    "TEMP_UNITS",
+                    "PRES_VALUE",
+                    "PRES_UNITS"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "SPEC_OPT": {
+                      "const": "DP"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "DUTY_VALUE",
+                    "DUTY_UNITS",
+                    "PRES_VALUE",
+                    "PRES_UNITS"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "SPEC_OPT": {
+                      "const": "TD"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "TEMP_VALUE",
+                    "TEMP_UNITS",
+                    "DUTY_VALUE",
+                    "DUTY_UNITS"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "SPEC_OPT": {
+                      "const": "TV"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "TEMP_VALUE",
+                    "TEMP_UNITS",
+                    "VFRAC_VALUE"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "SPEC_OPT": {
+                      "const": "PV"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "PRES_VALUE",
+                    "PRES_UNITS",
+                    "VFRAC_VALUE"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "SPEC_OPT": {
+                      "const": "DTV"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "DUTY_VALUE",
+                    "DUTY_UNITS",
+                    "VFRAC_VALUE"
+                  ]
+                }
+              }
+            ]
+          },
+          "REAC_DATA": {
+            "type": "object",
+            "properties": {
+              "SERIES": {
+                "type": "string",
+                "description": "反应是否连续发生",
+                "enum": [
+                  "",
+                  "YES"
+                ],
+                "default": ""
+              },
+              "REAC": {
+                "type": "array",
+                "description": "反应定义数组",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "KEY_SSID": {
+                      "type": "string",
+                      "description": "反应步骤ID",
+                      "pattern": "^[0-9]+$"
+                    },
+                    "CONV": {
+                      "type": "number",
+                      "description": "转化率",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    "KEY_CID": {
+                      "type": "string",
+                      "description": "关键组分ID",
+                      "pattern": "^[A-Za-z0-9_-]+$"
+                    },
+                    "OPT_EXT_CONV": {
+                      "type": "string",
+                      "description": "转化率/反应程度选项",
+                      "enum": [
+                        "CONVERSION",
+                        "EXTENT"
+                      ]
+                    },
+                    "EXTENT": {
+                      "type": [
+                        "number",
+                        "null"
+                      ],
+                      "description": "反应程度",
+                      "minimum": 0
+                    },
+                    "COEF_DATA": {
+                      "type": "object",
+                      "description": "反应物化学计量系数，同一组分不能同时作为反应物和生成产物，所选组分必须在components中包含",
+                      "patternProperties": {
+                        "^[A-Za-z0-9_-]+$": {
+                          "type": "number",
+                          "description": "组分化学计量系数（反应物为负值）"
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "COEF1_DATA": {
+                      "type": "object",
+                      "description": "生成物化学计量系数",
+                      "patternProperties": {
+                        "^[A-Za-z0-9_-]+$": {
+                          "type": "number",
+                          "description": "组分化学计量系数（生成物为正值）"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "KEY_SSID",
+                    "CONV",
+                    "KEY_CID",
+                    "OPT_EXT_CONV",
+                    "COEF_DATA",
+                    "COEF1_DATA"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 1
+              }
+            },
+            "required": [
+              "REAC"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "SPEC_DATA",
+          "REAC_DATA"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "blocks_Mixer_data": {
+    "type": "object",
+    "description": "混合器配置数据",
+    "patternProperties": {
+      "^[A-Z][0-9A-Z]*$": {
+        "type": "object",
+        "properties": {
+          "SPEC_DATA": {
+            "type": "object",
+            "properties": {
+              "PRES_VALUE": {
+                "type": "number",
+                "description": "压力值,默认值0.0"
+              },
+              "PRES_UNITS": {
+                "type": "string",
+                "description": "压力单位,默认值bar"
+              },
+              "MAXIT_VALUE": {
+                "type": "integer",
+                "description": "收敛参数-最大迭代次数,默认值30"
+              },
+              "TOL_VALUE": {
+                "type": "number",
+                "description": "收敛参数-容许误差,默认值0.0001"
+              }
+            },
+            "required": [
+              "PRES_VALUE",
+              "PRES_UNITS",
+              "MAXIT_VALUE",
+              "TOL_VALUE"
+            ]
+          }
+        },
+        "required": [
+          "SPEC_DATA"
+        ]
+      }
+    }
+  }
+}

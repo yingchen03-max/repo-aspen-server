@@ -1,0 +1,225 @@
+{
+  "blocks_FSplit_data": {
+    "type": "object",
+    "description": "分流器（FSplit）配置数据",
+    "patternProperties": {
+      "^[A-Z][0-9A-Z]*$": {
+        "type": "object",
+        "properties": {
+          "SPEC_DATA": {
+            "type": "object",
+            "properties": {
+              "COMPS": {
+                "type": "object",
+                "description": "组分数据",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "MIXED": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
+              },
+              "BASIS_C_LIM": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "BASIS_C_LIM_VALUE": {
+                      "type": "number"
+                    },
+                    "BASIS_C_LIM_UNITS": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "BASIS_FLOW": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "BASIS_FLOW_VALUE": {
+                      "type": "number"
+                    },
+                    "BASIS_FLOW_UNITS": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "BASIS_KEYNO": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "BASIS_KEYNO_VALUE": {
+                      "type": "number"
+                    }
+                  }
+                }
+              },
+              "BASIS_LIMIT": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "BASIS_LIMIT_VALUE": {
+                      "type": "number"
+                    },
+                    "BASIS_LIMIT_UNITS": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "C_LIM_BASIS": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "C_LIM_BASIS_VALUE": {
+                      "type": "number"
+                    }
+                  }
+                }
+              },
+              "DUTY": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "DUTY_VALUE": {
+                      "type": "number"
+                    },
+                    "DUTY_UNITS": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "FLOW_BASIS": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "FLOW_BASIS_VALUE": {
+                      "type": "number"
+                    }
+                  }
+                }
+              },
+              "FRAC": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "FRAC_VALUE": {
+                      "type": "number"
+                    }
+                  }
+                }
+              },
+              "LIMIT_BASIS": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "LIMIT_BASIS_VALUE": {
+                      "type": "number"
+                    }
+                  }
+                }
+              },
+              "ORDER": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "ORDER_VALUE": {
+                      "type": "number"
+                    }
+                  }
+                }
+              },
+              "POWER": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "POWER_VALUE": {
+                      "type": "number"
+                    },
+                    "POWER_UNITS": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "R_FRAC": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "R_FRAC_VALUE": {
+                      "type": "number"
+                    }
+                  }
+                }
+              },
+              "VOL_C_LIM": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "VOL_C_LIM_VALUE": {
+                      "type": "number"
+                    },
+                    "VOL_C_LIM_UNITS": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "VOL_FLOW": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "VOL_FLOW_VALUE": {
+                      "type": "number"
+                    },
+                    "VOL_FLOW_UNITS": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "VOL_LIMIT": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "VOL_LIMIT_VALUE": {
+                      "type": "number"
+                    },
+                    "VOL_LIMIT_UNITS": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "SPEC_DATA"
+        ]
+      }
+    }
+  }
+}

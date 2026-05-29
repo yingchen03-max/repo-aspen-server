@@ -1,0 +1,73 @@
+{
+  "design_specs": {
+			"type": "object",
+			"description": "设计规定数据",
+			"patternProperties": {
+				"^[A-Za-z0-9_-]+$": {
+					"type": "object",
+					"properties": {
+						"sampled_variables": {
+							"type": "array",
+							"description": "样本变量列表",
+							"items": {
+								"type": "object",
+								"additionalProperties": true
+							}
+						},
+						"objective_function": {
+							"type": "object",
+							"description": "目标函数配置",
+							"properties": {
+								"EXPR1": {
+									"type": "string",
+									"description": "表达式1"
+								},
+								"TOL": {
+									"type": "number",
+									"description": "容差"
+								},
+								"EXPR2": {
+									"type": "string",
+									"description": "表达式2"
+								}
+							}
+						},
+						"manipulated_variables": {
+							"type": "array",
+							"description": "操纵变量列表",
+							"items": {
+								"type": "object",
+								"additionalProperties": true
+							}
+						},
+						"bounds": {
+							"type": "object",
+							"description": "边界和步长设置",
+							"properties": {
+								"LOWER": {
+									"type": "number",
+									"description": "下界"
+								},
+								"UPPER": {
+									"type": "number",
+									"description": "上界"
+								},
+								"STEP_SIZE": {
+									"type": "number",
+									"description": "步长"
+								},
+								"MAX_STEP_SIZ": {
+									"type": "number",
+									"description": "最大步长"
+								},
+								"THRESHOLD": {
+									"type": "number",
+									"description": "阈值"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+}

@@ -1,0 +1,59 @@
+{
+  "blocks_Sep2_data": {
+    "type": "object",
+    "description": "两出口组分分离器配置数据",
+    "patternProperties": {
+      "^[A-Z][0-9A-Z]*$": {
+        "type": "object",
+        "properties": {
+          "SPEC_DATA": {
+            "type": "object",
+            "description": "分离规格数据，键为sep2在block_connections中的出口流股编号",
+            "patternProperties": {
+              "^[A-Z]+-[0-9]+$": {
+                "type": "array",
+                "description": "该出口流股的组分分离规格数组",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "COMP_ID": {
+                      "type": "string",
+                      "description": "组分标识符，对应components中的cid"
+                    },
+                    "FLOWBASIS": {
+                      "type": "string",
+                      "enum": [
+                        "MASS",
+                        "MOLE",
+                        "VOLUME",
+                        "STDVOL"
+                      ],
+                      "description": "流量基准"
+                    },
+                    "FRACS": {
+                      "type": "number",
+                      "description": "分流分率，用于循环的出口流股，产品输出类型的出口流程无需设置"
+                    }
+                  },
+                  "required": [
+                    "COMP_ID",
+                    "FLOWBASIS"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 1
+              }
+            },
+            "additionalProperties": false,
+            "minProperties": 1
+          }
+        },
+        "required": [
+          "SPEC_DATA"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "additionalProperties": false
+  }
+}

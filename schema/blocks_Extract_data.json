@@ -1,0 +1,88 @@
+{
+  "blocks_Extract_data": {
+    "type": "object",
+    "description": "萃取塔（Extract）配置数据",
+    "patternProperties": {
+      "^[A-Z][0-9A-Z]*$": {
+        "type": "object",
+        "properties": {
+          "SPEC_DATA": {
+            "type": "object",
+            "properties": {
+              "NSTAGE": {
+                "type": "integer",
+                "description": "塔板数"
+              },
+              "OPT_THERMAL": {
+                "type": "string",
+                "description": "热力学选项"
+              },
+              "TSPEC_TEMP": {
+                "type": "object",
+                "description": "温度规范（动态塔板节点）",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "TSPEC_TEMP_VALUE": {
+                      "type": "number"
+                    },
+                    "TSPEC_TEMP_UNITS": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "HEATER_DUTY": {
+                "type": "object",
+                "description": "加热器负荷（动态塔板节点）",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "HEATER_DUTY_VALUE": {
+                      "type": "number"
+                    },
+                    "HEATER_DUTY_UNITS": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "COMP1_LIST": {
+                "type": "object",
+                "description": "关键组分列表1",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "COMP2_LIST": {
+                "type": "object",
+                "description": "关键组分列表2",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "STAGE_PRES": {
+                "type": "object",
+                "description": "压力分布（动态塔板节点）",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "STAGE_PRES_VALUE": {
+                      "type": "number"
+                    },
+                    "STAGE_PRES_UNITS": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "SPEC_DATA"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "blocks_Compr_data": {
+    "type": "object",
+    "description": "压缩机配置数据",
+    "patternProperties": {
+      "^[A-Z][0-9A-Z]*$": {
+        "type": "object",
+        "properties": {
+          "SPEC_DATA": {
+            "type": "object",
+            "properties": {
+              "MODEL_TYPE": {
+                "type": "string",
+                "enum": [
+                  "COMPRESSOR",
+                  "TURBINE"
+                ],
+                "default": "COMPRESSOR"
+              },
+              "TYPE": {
+                "type": "string",
+                "enum": [
+                  "ISENTROPIC",
+                  "ASME-ISENTROP",
+                  "GPSA-ISENTROP",
+                  "ASME-POLYTROP",
+                  "GPSA-POLYTROP"
+                ]
+              },
+              "PRES_VALUE": {
+                "type": "number"
+              },
+              "PRES_UNITS": {
+                "type": "string"
+              },
+              "OPT_SPEC": {
+                "type": "string",
+                "enum": [
+                  "PRES",
+                  "DELP",
+                  "PRATIO",
+                  "POWER",
+                  "USE-CURVE"
+                ],
+                "default": "PRES"
+              }
+            },
+            "required": [
+              "MODEL_TYPE",
+              "TYPE",
+              "PRES_VALUE",
+              "PRES_UNITS",
+              "OPT_SPEC"
+            ]
+          }
+        },
+        "required": [
+          "SPEC_DATA"
+        ]
+      }
+    }
+  }
+}

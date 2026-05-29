@@ -1,0 +1,427 @@
+{
+  "blocks_Heater_data": {
+    "type": "object",
+    "description": "加热器/冷却器配置数据",
+    "patternProperties": {
+      "^[A-Z][0-9A-Z]*$": {
+        "type": "object",
+        "properties": {
+          "SPEC_DATA": {
+            "type": "object",
+            "properties": {
+              "SPEC_OPT": {
+                "type": "string",
+                "enum": [
+                  "TP",
+                  "PD",
+                  "TD",
+                  "TV",
+                  "DTD",
+                  "PDT",
+                  "PV",
+                  "DTV",
+                  "PDEGSUB",
+                  "PDEGSUP",
+                  "DDPPARM",
+                  "TDPPARM",
+                  "DTDPPARM",
+                  "VDPPARM",
+                  "DEGSUPDPPARM",
+                  "DEGSUBDPPARM"
+                ],
+                "description": "规格选项",
+                "enumDescriptions": {
+                  "TP": "温度压力",
+                  "PD": "负荷压力",
+                  "TD": "温度负荷",
+                  "TV": "温度汽相分率",
+                  "DTD": "负荷温度变化",
+                  "PDT": "压力温度变化",
+                  "PV": "压力汽相分率",
+                  "DTV": "温度变化汽相分率",
+                  "PDEGSUB": "压力过冷度",
+                  "PDEGSUP": "压力过热度",
+                  "DDPPARM": "负荷压降关联式参数",
+                  "TDPPARM": "温度压降关联式参数",
+                  "DTDPPARM": "温度变化压降关联式参数",
+                  "VDPPARM": "汽相分率压降关联式参数",
+                  "DEGSUPDPPARM": "过热度压降关联式参数",
+                  "DEGSUBDPPARM": "过冷度压降关联式参数"
+                }
+              },
+              "TEMP_VALUE": {
+                "type": "number",
+                "description": "规定-温度"
+              },
+              "TEMP_UNITS": {
+                "type": "string",
+                "enum": [
+                  "C",
+                  "K",
+                  "F",
+                  "R"
+                ],
+                "description": "规定-温度单位"
+              },
+              "DELT_VALUE": {
+                "type": "number",
+                "description": "规定-温度变化"
+              },
+              "DELT_UNITS": {
+                "type": "string",
+                "enum": [
+                  "C",
+                  "K",
+                  "F",
+                  "R",
+                  "DELTA-C",
+                  "DELTA-K",
+                  "DELTA-F",
+                  "DELTA-R"
+                ],
+                "description": "规定-温度变化单位"
+              },
+              "DEGSUP_VALUE": {
+                "type": "number",
+                "description": "规定-过热度"
+              },
+              "DEGSUP_UNITS": {
+                "type": "string",
+                "enum": [
+                  "C",
+                  "K",
+                  "F",
+                  "R",
+                  "DELTA-C",
+                  "DELTA-K",
+                  "DELTA-F",
+                  "DELTA-R"
+                ],
+                "description": "规定-过热度单位"
+              },
+              "DEGSUB_VALUE": {
+                "type": "number",
+                "description": "规定-过冷度"
+              },
+              "DEGSUB_UNITS": {
+                "type": "string",
+                "enum": [
+                  "C",
+                  "K",
+                  "F",
+                  "R",
+                  "DELTA-C",
+                  "DELTA-K",
+                  "DELTA-F",
+                  "DELTA-R"
+                ],
+                "description": "规定-过冷度单位"
+              },
+              "VFRAC_VALUE": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "description": "规定-汽相分率"
+              },
+              "PRES_VALUE": {
+                "type": "number",
+                "description": "规定-压力"
+              },
+              "PRES_UNITS": {
+                "type": "string",
+                "description": "规定-压力单位,默认值bar"
+              },
+              "DUTY_VALUE": {
+                "type": "number",
+                "description": "规定-负载"
+              },
+              "DUTY_UNITS": {
+                "type": "string",
+                "description": "规定-负载单位,默认值kW"
+              }
+            },
+            "required": [
+              "SPEC_OPT"
+            ],
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "SPEC_OPT": {
+                      "const": "TP"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "TEMP_VALUE",
+                    "TEMP_UNITS",
+                    "PRES_VALUE",
+                    "PRES_UNITS"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "SPEC_OPT": {
+                      "const": "DP"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "DUTY_VALUE",
+                    "DUTY_UNITS",
+                    "PRES_VALUE",
+                    "PRES_UNITS"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "SPEC_OPT": {
+                      "const": "TD"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "TEMP_VALUE",
+                    "TEMP_UNITS",
+                    "DUTY_VALUE",
+                    "DUTY_UNITS"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "SPEC_OPT": {
+                      "const": "TV"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "TEMP_VALUE",
+                    "TEMP_UNITS",
+                    "VFRAC_VALUE"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "SPEC_OPT": {
+                      "const": "DTD"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "DUTY_VALUE",
+                    "DUTY_UNITS",
+                    "DELT_VALUE",
+                    "DELT_UNITS"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "SPEC_OPT": {
+                      "const": "PDT"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "PRES_VALUE",
+                    "PRES_UNITS",
+                    "DELT_VALUE",
+                    "DELT_UNITS"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "SPEC_OPT": {
+                      "const": "PV"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "PRES_VALUE",
+                    "PRES_UNITS",
+                    "VFRAC_VALUE"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "SPEC_OPT": {
+                      "const": "DTV"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "DELT_VALUE",
+                    "DELT_UNITS",
+                    "VFRAC_VALUE"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "SPEC_OPT": {
+                      "const": "PDEGSUB"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "PRES_VALUE",
+                    "PRES_UNITS",
+                    "DEGSUB_VALUE",
+                    "DEGSUB_UNITS"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "SPEC_OPT": {
+                      "const": "PDEGSUP"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "PRES_VALUE",
+                    "PRES_UNITS",
+                    "DEGSUP_VALUE",
+                    "DEGSUP_UNITS"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "SPEC_OPT": {
+                      "const": "DDPPARM"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "DUTY_VALUE",
+                    "DUTY_UNITS",
+                    "PRES_VALUE",
+                    "PRES_UNITS"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "SPEC_OPT": {
+                      "const": "TDPPARM"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "TEMP_VALUE",
+                    "TEMP_UNITS",
+                    "PRES_VALUE",
+                    "PRES_UNITS"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "SPEC_OPT": {
+                      "const": "DTDPPARM"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "DELT_VALUE",
+                    "DELT_UNITS",
+                    "PRES_VALUE",
+                    "PRES_UNITS"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "SPEC_OPT": {
+                      "const": "VDPPARM"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "VFRAC_VALUE",
+                    "PRES_VALUE",
+                    "PRES_UNITS"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "SPEC_OPT": {
+                      "const": "DEGSUPDPPARM"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "DEGSUP_VALUE",
+                    "DEGSUP_UNITS",
+                    "PRES_VALUE",
+                    "PRES_UNITS"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "SPEC_OPT": {
+                      "const": "DEGSUBDPPARM"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "DEGSUB_VALUE",
+                    "DEGSUB_UNITS",
+                    "PRES_VALUE",
+                    "PRES_UNITS"
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        "required": [
+          "SPEC_DATA"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "additionalProperties": false
+  }
+}

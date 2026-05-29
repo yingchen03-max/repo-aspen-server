@@ -1,0 +1,57 @@
+{
+  "blocks_Distl_data": {
+    "type": "object",
+    "description": "精馏塔（Distl）配置数据",
+    "patternProperties": {
+      "^[A-Z][0-9A-Z]*$": {
+        "type": "object",
+        "properties": {
+          "SPEC_DATA": {
+            "type": "object",
+            "properties": {
+              "NSTAGE": {
+                "type": "integer",
+                "description": "塔板数"
+              },
+              "FEED_LOC": {
+                "type": "integer",
+                "description": "进料塔板数"
+              },
+              "RR": {
+                "type": "number",
+                "description": "回流比"
+              },
+              "D_F": {
+                "type": "number",
+                "description": "馏出物与进料摩尔比"
+              },
+              "COND_TYPE": {
+                "type": "string",
+                "description": "冷凝器类型"
+              },
+              "PTOP": {
+                "type": "number",
+                "description": "冷凝器压力"
+              },
+              "PTOP_UNITS": {
+                "type": "string",
+                "description": "冷凝器压力单位"
+              },
+              "PBOT": {
+                "type": "number",
+                "description": "再沸器压力"
+              },
+              "PBOT_UNITS": {
+                "type": "string",
+                "description": "再沸器压力单位"
+              }
+            }
+          }
+        },
+        "required": [
+          "SPEC_DATA"
+        ]
+      }
+    }
+  }
+}

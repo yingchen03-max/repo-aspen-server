@@ -1,0 +1,45 @@
+{
+  "blocks_Dupl_data": {
+    "type": "object",
+    "description": "塔器/列模型（Dupl）配置数据",
+    "patternProperties": {
+      "^[A-Z][0-9A-Z]*$": {
+        "type": "object",
+        "properties": {
+          "SPEC_DATA": {
+            "type": "object",
+            "properties": {
+              "OPSETNAME": {
+                "type": "string",
+                "description": "物性方法集名称"
+              },
+              "CHEMISTRY": {
+                "type": "string",
+                "description": "化学计算"
+              },
+              "TRUE_COMPS": {
+                "type": "string",
+                "description": "真实组分"
+              },
+              "FRWATEROPSET": {
+                "type": "string",
+                "description": "自由水物性方法集"
+              },
+              "SOLU_WATER": {
+                "type": "integer",
+                "description": "可溶性水"
+              },
+              "HENRY_COMPS": {
+                "type": "string",
+                "description": "Henry组分"
+              }
+            }
+          }
+        },
+        "required": [
+          "SPEC_DATA"
+        ]
+      }
+    }
+  }
+}

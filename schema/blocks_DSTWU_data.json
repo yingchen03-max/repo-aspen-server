@@ -1,0 +1,132 @@
+{
+  "blocks_DSTWU_data": {
+    "type": "object",
+    "description": "DSTWU精馏塔简捷设计模块配置数据",
+    "patternProperties": {
+      "^[A-Z][0-9A-Z]*$": {
+        "type": "object",
+        "description": "DSTWU模块实例配置，键为DSTWU模块在block_connections中的ID",
+        "properties": {
+          "SPEC_DATA": {
+            "type": "object",
+            "description": "DSTWU模块设计规格数据",
+            "properties": {
+              "OPT_NTRR": {
+                "type": "string",
+                "enum": [
+                  "RR",
+                  "NSTAGE"
+                ],
+                "description": "设计选项：RR-指定回流比，NSTAGE-指定塔板数"
+              },
+              "RR": {
+                "type": "number",
+                "description": "回流比（当OPT_NTRR为RR时有效），大于0表示期望的回流比，小于-1表示期望的回流比为指定数值乘以最小回流比"
+              },
+              "NSTAGE": {
+                "type": "number",
+                "description": "回流比（当OPT_NTRR为NSTAGE时有效），理论塔板数，包括冷凝器和再沸器，取值2-500"
+              },
+              "PTOP": {
+                "type": "number",
+                "minimum": 0,
+                "description": "塔顶压力"
+              },
+              "PTOP_UNITS": {
+                "type": "string",
+                "enum": [
+                  "bar",
+                  "atm",
+                  "MPa",
+                  "kPa",
+                  "psi"
+                ],
+                "description": "塔顶压力单位"
+              },
+              "PBOT": {
+                "type": "number",
+                "minimum": 0,
+                "description": "塔底压力"
+              },
+              "PBOT_UNITS": {
+                "type": "string",
+                "enum": [
+                  "bar",
+                  "atm",
+                  "MPa",
+                  "kPa",
+                  "psi"
+                ],
+                "description": "塔底压力单位"
+              },
+              "OPT_RDV": {
+                "type": "string",
+                "enum": [
+                  "LIQUID",
+                  "VAPOR",
+                  "VAPLIQ"
+                ],
+                "enumDescriptions": {
+                  "LIQUID": "全凝器",
+                  "VAPOR": "产品全为汽相馏出物的部分冷凝器",
+                  "VAPLIQ": "产品全为汽液两相馏出物的部分冷凝器"
+                },
+                "description": "冷凝器规范"
+              },
+              "RDV": {
+                "type": "number",
+                "description": "馏出物气相分率（当OPT_RDV为LIQUID时设为0，当OPT_RDV为VAPOR时设为1,当OPT_RDV为VAPLIQ时自定义(范围0-1)）"
+              },
+              "LIGHTKEY": {
+                "type": "string",
+                "description": "轻关键组分标识符，对应components中的cid"
+              },
+              "RECOVL": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "description": "馏出液轻关键组分回收率（馏出物中轻关键组分摩尔数/原料中轻关键组分摩尔数）"
+              },
+              "HEAVYKEY": {
+                "type": "string",
+                "description": "重关键组分标识符，对应components中的cid"
+              },
+              "RECOVH": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "description": "馏出液重关键组分回收率（馏出物中重关键组分摩尔数/原料中重关键组分摩尔数）"
+              }
+            },
+            "required": [
+              "OPT_NTRR",
+              "PTOP",
+              "PTOP_UNITS",
+              "PBOT",
+              "PBOT_UNITS",
+              "OPT_RDV",
+              "LIGHTKEY",
+              "RECOVL",
+              "HEAVYKEY",
+              "RECOVH"
+            ],
+            "dependentRequired": {
+              "OPT_NTRR": [
+                "RR"
+              ],
+              "OPT_RDV": [
+                "RDV"
+              ]
+            },
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "SPEC_DATA"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "additionalProperties": false
+  }
+}

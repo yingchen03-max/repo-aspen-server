@@ -1,0 +1,114 @@
+{
+  "blocks_Decanter_data": {
+    "type": "object",
+    "patternProperties": {
+      "^[A-Za-z][A-Za-z0-9_]*$": {
+        "type": "object",
+        "properties": {
+          "SPEC_DATA": {
+            "type": "object",
+            "properties": {
+              "TEMP_VALUE": {
+                "type": "number",
+                "description": "Temperaturevalue"
+              },
+              "TEMP_UNITS": {
+                "type": "string",
+                "description": "Temperatureunits",
+                "enum": [
+                  "C",
+                  "F",
+                  "K"
+                ]
+              },
+              "PRES_VALUE": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Pressurevalue"
+              },
+              "PRES_UNITS": {
+                "type": "string",
+                "description": "Pressureunits",
+                "enum": [
+                  "bar",
+                  "psi",
+                  "kPa",
+                  "MPa"
+                ]
+              },
+              "DUTY_VALUE": {
+                "type": "number",
+                "description": "Dutyvalue"
+              },
+              "DUTY_UNITS": {
+                "type": "string",
+                "description": "Dutyunits",
+                "enum": [
+                  "kW",
+                  "MW",
+                  "W"
+                ]
+              },
+              "L2_CUTOFF": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "description": "Liquidlevelcutofffraction"
+              },
+              "L2_COMPS": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "description": "Componentsforliquidlevel2"
+              }
+            },
+            "required": [
+              "PRES_VALUE",
+              "PRES_UNITS",
+              "L2_CUTOFF",
+              "L2_COMPS"
+            ],
+            "allOf": [
+              {
+                "anyOf": [
+                  {
+                    "required": [
+                      "DUTY_VALUE",
+                      "DUTY_UNITS"
+                    ],
+                    "not": {
+                      "required": [
+                        "TEMP_VALUE",
+                        "TEMP_UNITS"
+                      ]
+                    }
+                  },
+                  {
+                    "required": [
+                      "TEMP_VALUE",
+                      "TEMP_UNITS"
+                    ],
+                    "not": {
+                      "required": [
+                        "DUTY_VALUE",
+                        "DUTY_UNITS"
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "SPEC_DATA"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "additionalProperties": false
+  }
+}

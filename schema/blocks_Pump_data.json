@@ -1,0 +1,39 @@
+{
+  "blocks_Pump_data": {
+    "type": "object",
+    "description": "泵配置数据",
+    "patternProperties": {
+      "^[A-Z][0-9A-Z]*$": {
+        "type": "object",
+        "properties": {
+          "SPEC_DATA": {
+            "type": "object",
+            "properties": {
+              "PUMP_TYPE": {
+                "type": "string"
+              },
+              "PRES_VALUE": {
+                "type": "number"
+              },
+              "PRES_UNITS": {
+                "type": "string"
+              },
+              "OPT_SPEC": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "PUMP_TYPE",
+              "PRES_VALUE",
+              "PRES_UNITS",
+              "OPT_SPEC"
+            ]
+          }
+        },
+        "required": [
+          "SPEC_DATA"
+        ]
+      }
+    }
+  }
+}

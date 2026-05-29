@@ -1,0 +1,290 @@
+{
+  "blocks_MCompr_data": {
+    "type": "object",
+    "description": "多级压缩机（MCompr）配置数据",
+    "patternProperties": {
+      "^[A-Z][0-9A-Z]*$": {
+        "type": "object",
+        "properties": {
+          "SPEC_DATA": {
+            "type": "object",
+            "properties": {
+              "NSTAGE": {
+                "type": "integer",
+                "description": "级数"
+              },
+              "PROD_STAGE": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "PROD_STAGE": {
+                      "type": "string"
+                    },
+                    "PROD_STAGE_VALUE": {
+                      "type": "integer"
+                    },
+                    "PROD_STREAM_VALUE": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "TYPE": {
+                "type": "string"
+              },
+              "OPT_SPEC": {
+                "type": "string"
+              },
+              "PRES_VALUE": {
+                "type": "number"
+              },
+              "PRES_UNITS": {
+                "type": "string"
+              },
+              "TYPE_STG": {
+                "type": "string"
+              },
+              "CALC_SPEED": {
+                "type": "string"
+              },
+              "GPSA_BASIS": {
+                "type": "string"
+              },
+              "CPR_METHOD": {
+                "type": "string"
+              },
+              "FEED_STAGE": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "FEED_STAGE": {
+                      "type": "string"
+                    },
+                    "FEED_STAGE_VALUE": {
+                      "type": "integer"
+                    },
+                    "FEED_STREAM_VALUE": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "GLOBAL": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "GLOBAL_VALUE": {
+                      "type": "integer"
+                    },
+                    "PROD_STREAM_VALUE": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "PROD_PHASE": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "PROD_PHASE": {
+                      "type": "string"
+                    },
+                    "PROD_PHASE_VALUE": {
+                      "type": "string"
+                    },
+                    "PROD_STREAM_VALUE": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "TEMP_VALUE": {
+                "type": "number"
+              },
+              "TEMP_UNITS": {
+                "type": "string"
+              },
+              "CLFR": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "number"
+                }
+              },
+              "CL_TEMP": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "CL_TEMP_VALUE": {
+                      "type": "number"
+                    },
+                    "CL_TEMP_UNITS": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "COOLER_UTL": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "C_S_PRES": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "C_S_PRES_VALUE": {
+                      "type": "number"
+                    },
+                    "C_S_PRES_UNITS": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "DELP": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "DELP_VALUE": {
+                      "type": "number"
+                    },
+                    "DELP_UNITS": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "DUTY": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "DUTY_VALUE": {
+                      "type": "number"
+                    },
+                    "DUTY_UNITS": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "MEFF": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "number"
+                }
+              },
+              "OPT_CLFR": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "OPT_CLSPEC": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "OPT_CSPEC": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "OPT_TEMP": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "PDROP": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "PDROP_VALUE": {
+                      "type": "number"
+                    },
+                    "PDROP_UNITS": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "PEFF": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "number"
+                }
+              },
+              "POWER": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "POWER_VALUE": {
+                      "type": "number"
+                    },
+                    "POWER_UNITS": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "PRATIO": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "number"
+                }
+              },
+              "SEFF": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "number"
+                }
+              },
+              "SPECS_UTL": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "TEMP": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "TEMP_VALUE": {
+                      "type": "number"
+                    },
+                    "TEMP_UNITS": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "TRATIO": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "SPEC_DATA"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "blocks_HeatX_data": {
+    "type": "object",
+    "description": "换热器（HeatX）配置数据",
+    "patternProperties": {
+      "^[A-Z][0-9A-Z]*$": {
+        "type": "object",
+        "properties": {
+          "SPEC_DATA": {
+            "type": "object",
+            "description": "换热器配置数据，包含大量参数（89个），使用additionalProperties支持所有参数",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "SPEC_DATA"
+        ]
+      }
+    }
+  }
+}

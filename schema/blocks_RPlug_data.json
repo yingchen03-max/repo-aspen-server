@@ -1,0 +1,143 @@
+{
+  "blocks_RPlug_data": {
+    "type": "object",
+    "description": "活塞流反应器配置数据",
+    "patternProperties": {
+      "^[A-Z][0-9A-Z]*$": {
+        "type": "object",
+        "properties": {
+          "SPEC_DATA": {
+            "type": "object",
+            "properties": {
+              "TYPE": {
+                "type": "string"
+              },
+              "OPT_TSPEC": {
+                "type": "string"
+              },
+              "REAC_TEMP": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "TYPE",
+              "OPT_TSPEC",
+              "REAC_TEMP"
+            ]
+          },
+          "CONFIG_DATA": {
+            "type": "object",
+            "properties": {
+              "PHASE": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "CHK_NTUBE": {
+                "type": "string"
+              },
+              "NTUBE": {
+                "type": "integer"
+              },
+              "LENGTH": {
+                "type": "number"
+              },
+              "DIAM": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "PHASE",
+              "CHK_NTUBE",
+              "LENGTH",
+              "DIAM"
+            ]
+          },
+          "REAC_DATA": {
+            "type": "object",
+            "properties": {
+              "REACSYS": {
+                "type": "string"
+              },
+              "RXN_ID": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "REACSYS",
+              "RXN_ID"
+            ]
+          },
+          "PRES_DATA": {
+            "type": "object",
+            "properties": {
+              "OPT_PDROP": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "PRES_VALUE": {
+                "type": "number"
+              },
+              "PRES_UNITS": {
+                "type": "string"
+              },
+              "DP_FCOR": {
+                "type": "string"
+              },
+              "DP_MULT": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "PRES_VALUE",
+              "PRES_UNITS",
+              "DP_FCOR",
+              "DP_MULT"
+            ]
+          },
+          "CAT_DATA": {
+            "type": "object",
+            "properties": {
+              "CAT_PRESENT": {
+                "type": "string"
+              },
+              "IGN_CAT_VOL": {
+                "type": "string"
+              },
+              "BED_VOIDAGE": {
+                "type": "number"
+              },
+              "CATWT_VALUE": {
+                "type": "number"
+              },
+              "CATWT_UNITS": {
+                "type": "string"
+              },
+              "CAT_RHO_VALUE": {
+                "type": "number"
+              },
+              "CAT_RHO_UNITS": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "CAT_PRESENT",
+              "IGN_CAT_VOL",
+              "BED_VOIDAGE"
+            ]
+          }
+        },
+        "required": [
+          "SPEC_DATA",
+          "CONFIG_DATA",
+          "REAC_DATA",
+          "PRES_DATA",
+          "CAT_DATA"
+        ]
+      }
+    }
+  }
+}

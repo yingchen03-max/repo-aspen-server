@@ -1,0 +1,163 @@
+{
+  "reactions": {
+			"type": "object",
+			"description": "化学反应定义，适用于RadFrac、RBatch、RCSTR、PRlug等反应器，其他反应器无需增加。注意：旧格式（使用patternProperties以反应编号作为键）已废弃，现在使用REAC_DATA数组格式",
+			"patternProperties": {
+				"^.*$": {
+					"type": "object",
+					"properties": {
+						"type": {
+							"type": "string",
+							"enum": [
+								"POWERLAW",
+								"LHHW",
+								"REAC-DIST"
+							],
+							"description": "反应类型",
+							"enumDescriptions": {
+								"POWERLAW": "幂律反应",
+								"LHHW": "Langmuir-Hinshelwood-Hougen-Watson反应",
+								"REAC-DIST": "反应分布"
+							}
+						},
+						"_deprecated_old_format": {
+							"type": "object",
+							"description": "已废弃的旧格式（保留用于参考）：旧格式使用patternProperties以反应编号（如'1'、'2'）作为键",
+							"patternProperties": {
+								"^\\d+$": {
+									"type": "object",
+									"properties": {
+										"REACTYPE": {
+											"type": "string",
+											"description": "反应类型"
+										},
+										"COEF_DATA": {
+											"type": "object",
+											"description": "反应物系数数据"
+										},
+										"COEF1_DATA": {
+											"type": "object",
+											"description": "生成物系数数据"
+										}
+									}
+								}
+							}
+						},
+						"REAC_DATA": {
+							"type": "array",
+							"description": "反应数据数组，包含多个反应步骤",
+							"minItems": 1,
+							"items": {
+								"type": "object",
+								"properties": {
+									"REAC_ID": {
+										"type": "string",
+										"pattern": "^[0-9]+$",
+										"description": "反应编号，例如 '1', '2', '3'"
+									},
+									"REACTYPE": {
+										"type": "string",
+										"enum": [
+											"KINETIC",
+											"EQUIL",
+											"EQUILIBRIUM",
+											"CONV",
+											"FORWARD",
+											"REVERSIBLE"
+										],
+										"description": "反应类型",
+										"enumDescriptions": {
+											"KINETIC": "动力学反应",
+											"EQUIL": "平衡反应",
+											"EQUILIBRIUM": "平衡反应",
+											"CONV": "转化率反应",
+											"FORWARD": "正向反应",
+											"REVERSIBLE": "可逆反应"
+										}
+									},
+									"COEF_DATA": {
+										"type": "object",
+										"description": "反应物化学计量系数，键为组分名称，值为化学计量系数（反应物为负值）",
+										"patternProperties": {
+											"^[A-Za-z0-9_-]+$": {
+												"type": "number",
+												"description": "组分化学计量系数（反应物为负值）"
+											}
+										},
+										"additionalProperties": false
+									},
+									"COEF1_DATA": {
+										"type": "object",
+										"description": "生成物化学计量系数，键为组分名称，值为化学计量系数（生成物为正值）",
+										"patternProperties": {
+											"^[A-Za-z0-9_-]+$": {
+												"type": "number",
+												"description": "组分化学计量系数（生成物为正值）"
+											}
+										},
+										"additionalProperties": false
+									},
+									"PHASE": {
+										"type": "string",
+										"enum": [
+											"L",
+											"V",
+											"S"
+										],
+										"description": "反应相态，L-液相，V-气相，S-固相（可选）"
+									},
+									"R_D_RBASIS": {
+										"type": "string",
+										"description": "速率基准，例如 'REAC-VOL'（可选）"
+									},
+									"PRE_EXP": {
+										"type": "number",
+										"description": "指前因子（仅KINETIC类型，可选）"
+									},
+									"T_EXP": {
+										"type": "number",
+										"description": "温度指数（仅KINETIC类型，可选）"
+									},
+									"ACT_ENERGY_VALUE": {
+										"type": "number",
+										"description": "活化能数值（仅KINETIC类型，可选）"
+									},
+									"ACT_ENERGY_UNITS": {
+										"type": "string",
+										"description": "活化能单位，例如 'kcal/mol'（仅KINETIC类型，可选）"
+									},
+									"KEY_CID": {
+										"type": "string",
+										"description": "关键组分ID（仅CONV类型，可选）"
+									},
+									"CONV_A": {
+										"type": "number",
+										"description": "转化率参数A（仅CONV类型，可选）"
+									},
+									"CONV_B": {
+										"type": "number",
+										"description": "转化率参数B（仅CONV类型，可选）"
+									},
+									"CONV_C": {
+										"type": "number",
+										"description": "转化率参数C（仅CONV类型，可选）"
+									},
+									"CONV_D": {
+										"type": "number",
+										"description": "转化率参数D（仅CONV类型，可选）"
+									}
+								},
+								"required": [
+									"REAC_ID",
+									"REACTYPE",
+									"COEF_DATA",
+									"COEF1_DATA"
+								],
+								"additionalProperties": false
+							}
+						}
+					}
+				}
+			}
+		}
+}

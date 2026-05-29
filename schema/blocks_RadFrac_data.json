@@ -1,0 +1,2334 @@
+{
+  "blocks_RadFrac_data": {
+    "type": "object",
+    "description": "精馏塔配置数据",
+    "required": [
+      "CONFIG_DATA",
+      "FEED_STAGE_DATA",
+      "PROD_STAGE_DATA",
+      "PRES_DATA",
+      "CONDENSER_DATA"
+    ],
+    "patternProperties": {
+      "^[A-Z][0-9A-Z]*$": {
+        "type": "object",
+        "properties": {
+          "CONFIG_DATA": {
+            "type": "object",
+            "properties": {
+              "CALC_MODE": {
+                "type": "string",
+                "enum": [
+                  "EQUILIBRIUM",
+                  "RIG-RATE"
+                ],
+                "enumDescriptions": {
+                  "EQUILIBRIUM": "平衡",
+                  "RIG-RATE": "速率模式"
+                },
+                "description": "计算类型，默认平衡，传质率计算需要启用速率模式",
+                "default": "EQUILIBRIUM"
+              },
+              "NSTAGE": {
+                "type": "integer",
+                "description": "塔板数",
+                "minimum": 2,
+                "maximum": 9999
+              },
+              "CONDENSER": {
+                "type": "string",
+                "enum": [
+                  "TOTAL",
+                  "PARTIAL-V",
+                  "PARTIAL-V-L",
+                  "NONE"
+                ],
+                "description": "冷凝器类型",
+                "enumDescriptions": {
+                  "TOTAL": "全凝器，不允许block_connections中类型为RadFrac的block配置的馏出物流股指定相=汽相或全汽相VD(OUT),必须指定液相馏出物流股LD(OUT)",
+                  "PARTIAL-V": "部分汽相，不允许block_connections中类型为RadFrac的block配置的馏出物流股指定液相LD(OUT)",
+                  "PARTIAL-V-L": "部分汽相-液相,不允许block_connections中类型为RadFrac的block配置的馏出物流股指定相=汽相或全汽相VD(OUT),必须指定液相馏出物流股LD(OUT)",
+                  "NONE": "无，不允许流股配置指定液相馏出物流股LD(OUT)，可以指定气相馏出物流股VD(OUT)"
+                }
+              },
+              "REBOILER": {
+                "type": "string",
+                "enum": [
+                  "KETTLE",
+                  "THERMOSYPHON",
+                  "NONE"
+                ],
+                "description": "再沸器类型",
+                "enumDescriptions": {
+                  "KETTLE": "釜式",
+                  "THERMOSYPHON": "热吸虹",
+                  "NONE": "无"
+                }
+              },
+              "CONV_METH": {
+                "type": "string",
+                "enum": [
+                  "STANDARD",
+                  "NONIDEAL",
+                  "AZEOTROPIC",
+                  "CRYOGENIC",
+                  "PETROLEUM",
+                  "OTHERS"
+                ],
+                "description": "收敛方法",
+                "enumDescriptions": {
+                  "STANDARD": "标准",
+                  "NONIDEAL": "非常不理想的液相",
+                  "AZEOTROPIC": "共沸",
+                  "CRYOGENIC": "深度冷冻",
+                  "PETROLEUM": "石油/宽沸程",
+                  "OTHERS": "自定义"
+                }
+              },
+              "NO_PHASE": {
+                "type": "integer",
+                "description": "相数",
+                "minimum": 1,
+                "maximum": 3
+              },
+              "BLKOPFREWAT": {
+                "type": "string",
+                "enum": [
+                  "YES",
+                  "NO",
+                  "DIRTY"
+                ],
+                "description": "是否忽略水相"
+              },
+              "OP_SPEC": {
+                "type": "array",
+                "description": "操作规范",
+                "items": {
+                  "type": "object",
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "BASIS_RR_VALUE": {
+                          "type": "number",
+                          "description": "回流比数值"
+                        },
+                        "BASIS_RR_BASIS": {
+                          "type": "string",
+                          "enum": [
+                            "MOLE",
+                            "MASS"
+                          ],
+                          "description": "回流比基准"
+                        },
+                        "specType": {
+                          "const": "RR"
+                        }
+                      },
+                      "required": [
+                        "BASIS_RR_VALUE",
+                        "BASIS_RR_BASIS"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "BASIS_D_VALUE": {
+                          "type": "number",
+                          "description": "馏出物流量数值"
+                        },
+                        "BASIS_D_UNITS": {
+                          "type": "string",
+                          "enum": [
+                            "kg/hr",
+                            "kmol/hr",
+                            "m3/hr",
+                            "lb/hr"
+                          ],
+                          "description": "馏出物流量单位"
+                        },
+                        "BASIS_D_BASIS": {
+                          "type": "string",
+                          "enum": [
+                            "MOLE",
+                            "MASS"
+                          ],
+                          "description": "馏出物流量基准"
+                        },
+                        "specType": {
+                          "const": "D"
+                        }
+                      },
+                      "required": [
+                        "BASIS_D_VALUE",
+                        "BASIS_D_UNITS",
+                        "BASIS_D_BASIS"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "BASIS_L1_VALUE": {
+                          "type": "number",
+                          "description": "回流速率数值"
+                        },
+                        "BASIS_L1_UNITS": {
+                          "type": "string",
+                          "enum": [
+                            "kg/hr",
+                            "kmol/hr",
+                            "m3/hr",
+                            "lb/hr"
+                          ],
+                          "description": "回流速率单位"
+                        },
+                        "BASIS_L1_BASIS": {
+                          "type": "string",
+                          "enum": [
+                            "MOLE",
+                            "MASS"
+                          ],
+                          "description": "回流速率基准"
+                        },
+                        "specType": {
+                          "const": "L1"
+                        }
+                      },
+                      "required": [
+                        "BASIS_L1_VALUE",
+                        "BASIS_L1_UNITS",
+                        "BASIS_L1_BASIS"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "BASIS_B_VALUE": {
+                          "type": "number",
+                          "description": "塔底物流率数值"
+                        },
+                        "BASIS_B_UNITS": {
+                          "type": "string",
+                          "enum": [
+                            "kg/hr",
+                            "kmol/hr",
+                            "m3/hr",
+                            "lb/hr"
+                          ],
+                          "description": "塔底物流率单位"
+                        },
+                        "BASIS_B_BASIS": {
+                          "type": "string",
+                          "enum": [
+                            "MOLE",
+                            "MASS"
+                          ],
+                          "description": "塔底物流率基准"
+                        },
+                        "specType": {
+                          "const": "B"
+                        }
+                      },
+                      "required": [
+                        "BASIS_B_VALUE",
+                        "BASIS_B_UNITS",
+                        "BASIS_B_BASIS"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "BASIS_VN_VALUE": {
+                          "type": "number",
+                          "description": "再沸蒸汽流速数值"
+                        },
+                        "BASIS_VN_UNITS": {
+                          "type": "string",
+                          "enum": [
+                            "kg/hr",
+                            "kmol/hr",
+                            "m3/hr",
+                            "lb/hr"
+                          ],
+                          "description": "再沸蒸汽流速单位"
+                        },
+                        "BASIS_VN_BASIS": {
+                          "type": "string",
+                          "enum": [
+                            "MOLE",
+                            "MASS"
+                          ],
+                          "description": "再沸蒸汽流速基准"
+                        },
+                        "specType": {
+                          "const": "VN"
+                        }
+                      },
+                      "required": [
+                        "BASIS_VN_VALUE",
+                        "BASIS_VN_UNITS",
+                        "BASIS_VN_BASIS"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "BASIS_BR_VALUE": {
+                          "type": "number",
+                          "description": "再沸比数值"
+                        },
+                        "BASIS_BR_BASIS": {
+                          "type": "string",
+                          "enum": [
+                            "MOLE",
+                            "MASS"
+                          ],
+                          "description": "再沸比基准"
+                        },
+                        "specType": {
+                          "const": "BR"
+                        }
+                      },
+                      "required": [
+                        "BASIS_BR_VALUE",
+                        "BASIS_BR_BASIS"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "Q1_VALUE": {
+                          "type": "number",
+                          "description": "冷凝器负荷数值"
+                        },
+                        "Q1_UNITS": {
+                          "type": "string",
+                          "enum": [
+                            "kW",
+                            "MW",
+                            "W"
+                          ],
+                          "description": "冷凝器负荷单位"
+                        },
+                        "specType": {
+                          "const": "Q1"
+                        }
+                      },
+                      "required": [
+                        "Q1_VALUE",
+                        "Q1_UNITS"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "QN_VALUE": {
+                          "type": "number",
+                          "description": "再沸器负荷数值"
+                        },
+                        "QN_UNITS": {
+                          "type": "string",
+                          "enum": [
+                            "kW",
+                            "MW",
+                            "W"
+                          ],
+                          "description": "再沸器负荷单位"
+                        },
+                        "specType": {
+                          "const": "QN"
+                        }
+                      },
+                      "required": [
+                        "QN_VALUE",
+                        "QN_UNITS"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "DF_VALUE": {
+                          "type": "number",
+                          "description": "馏出物进料比数值"
+                        },
+                        "DF_BASIS": {
+                          "type": "string",
+                          "enum": [
+                            "MOLE",
+                            "MASS"
+                          ],
+                          "description": "馏出物进料比基准"
+                        },
+                        "specType": {
+                          "const": "D:F"
+                        }
+                      },
+                      "required": [
+                        "DF_VALUE",
+                        "DF_BASIS"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "BF_VALUE": {
+                          "type": "number",
+                          "description": "塔底采出与进料比数值"
+                        },
+                        "BF_BASIS": {
+                          "type": "string",
+                          "enum": [
+                            "MOLE",
+                            "MASS"
+                          ],
+                          "description": "塔底采出与进料比基准，注意取值是BF_VALUE，不是BASIS_BF_VALUE"
+                        },
+                        "specType": {
+                          "const": "B:F"
+                        }
+                      },
+                      "required": [
+                        "BF_VALUE",
+                        "BF_BASIS"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                },
+                "minItems": 1,
+                "maxItems": 2,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "length": {
+                          "const": 2
+                        }
+                      }
+                    },
+                    "then": {
+                      "anyOf": [
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "D"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "L1"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "D"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "VN"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "D"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "RR"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "D"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "BR"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "D"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "Q1"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "D"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "QN"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "L1"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "D"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "VN"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "D"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "RR"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "D"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "BR"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "D"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "Q1"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "D"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "QN"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "D"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "B"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "L1"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "B"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "VN"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "B"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "RR"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "B"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "BR"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "B"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "Q1"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "B"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "QN"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "L1"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "B"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "VN"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "B"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "RR"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "B"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "BR"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "B"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "Q1"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "B"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "QN"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "B"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "D:F"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "L1"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "D:F"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "VN"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "D:F"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "RR"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "D:F"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "BR"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "D:F"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "Q1"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "D:F"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "QN"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "L1"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "D:F"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "VN"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "D:F"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "RR"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "D:F"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "BR"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "D:F"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "Q1"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "D:F"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "QN"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "D:F"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "B:F"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "L1"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "B:F"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "VN"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "B:F"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "RR"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "B:F"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "BR"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "B:F"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "Q1"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "B:F"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "QN"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "L1"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "B:F"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "VN"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "B:F"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "RR"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "B:F"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "BR"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "B:F"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "Q1"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "B:F"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "QN"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "B:F"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "L1"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "RR"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "L1"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "BR"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "RR"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "L1"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "BR"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "L1"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "VN"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "RR"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "VN"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "BR"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "RR"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "VN"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "BR"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "VN"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "RR"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "BR"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "RR"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "Q1"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "RR"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "QN"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "BR"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "RR"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "Q1"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "RR"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "QN"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "RR"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "BR"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "Q1"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "BR"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "QN"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "Q1"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "BR"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "QN"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "BR"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "Q1"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "QN"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "0": {
+                              "properties": {
+                                "specType": {
+                                  "const": "QN"
+                                }
+                              }
+                            },
+                            "1": {
+                              "properties": {
+                                "specType": {
+                                  "const": "Q1"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            "required": [
+              "CALC_MODE",
+              "NSTAGE",
+              "CONDENSER",
+              "REBOILER",
+              "CONV_METH",
+              "NO_PHASE",
+              "BLKOPFREWAT",
+              "OP_SPEC"
+            ],
+            "additionalProperties": false
+          },
+          "FEED_STAGE_DATA": {
+            "type": "array",
+            "description": "进料塔板数据",
+            "items": {
+              "type": "object",
+              "properties": {
+                "FEED_STAGE": {
+                  "type": "string",
+                  "description": "进料流股名称，表示RadFrac设备的入口物流名称"
+                },
+                "FEED_STAGE_VALUE": {
+                  "type": "integer",
+                  "description": "进料塔板位置，比如1表示第1块塔板，当再沸器=无或再沸器负荷=0时，必须指定底端塔板进料，塔板上进料时等于塔板数；塔板上方、汽相或液相进料时等于塔板数+1",
+                  "minimum": 1
+                },
+                "FEED_CONVEN": {
+                  "type": "string",
+                  "enum": [
+                    "ABOVE-STAGE",
+                    "ON-STAGE",
+                    "BELOW-STAGE"
+                  ],
+                  "description": "进料位置，当再沸器=无或再沸器负荷=0时，必须指定底端塔板进料，塔板上进料时等于塔板数；塔板上方、汽相或液相进料时等于塔板数+1"
+                }
+              },
+              "required": [
+                "FEED_STAGE",
+                "FEED_STAGE_VALUE",
+                "FEED_CONVEN"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1
+          },
+          "PROD_STAGE_DATA": {
+            "type": "array",
+            "description": "产品塔板数据",
+            "items": {
+              "type": "object",
+              "properties": {
+                "PROD_STAGE": {
+                  "type": "string",
+                  "description": "产品流股名称，表示RadFrac设备的产品出口物流名称"
+                },
+                "PROD_STAGE_VALUE": {
+                  "type": "integer",
+                  "description": "产品塔板数值",
+                  "minimum": 1
+                },
+                "PROD_PHASE": {
+                  "type": "string",
+                  "enum": [
+                    "L",
+                    "V"
+                  ],
+                  "description": "产品相态"
+                }
+              },
+              "required": [
+                "PROD_STAGE",
+                "PROD_STAGE_VALUE",
+                "PROD_PHASE"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1
+          },
+          "PRES_DATA": {
+            "type": "object",
+            "description": "压力数据配置",
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "VIEW_PRES": {
+                    "type": "string",
+                    "enum": [
+                      "PROFILE"
+                    ],
+                    "default": "PROFILE",
+                    "description": "压力视图类型：PROFILE - 塔板详细压力分布"
+                  },
+                  "STAGE_PRES": {
+                    "type": "array",
+                    "description": "塔板压力数据（按塔板分布）",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "PRES_STAGE": {
+                          "type": "string",
+                          "description": "压力塔板位置，如 '2' 表示第2块塔板"
+                        },
+                        "PRES_VALUE": {
+                          "type": "number",
+                          "minimum": 0,
+                          "description": "塔板压力数值"
+                        },
+                        "PRES_UNITS": {
+                          "type": "string",
+                          "enum": [
+                            "atm",
+                            "bar",
+                            "kPa",
+                            "MPa",
+                            "psi"
+                          ],
+                          "description": "塔板压力单位"
+                        }
+                      },
+                      "required": [
+                        "PRES_STAGE",
+                        "PRES_VALUE",
+                        "PRES_UNITS"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "VIEW_PRES",
+                  "STAGE_PRES"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "VIEW_PRES": {
+                    "type": "string",
+                    "enum": [
+                      "TOP/BOTTOM"
+                    ],
+                    "description": "压力视图类型：TOP/BOTTOM - 塔顶/塔底压力配置"
+                  },
+                  "STAGE_PRES": {
+                    "type": "array",
+                    "description": "塔顶/塔底压力配置数据",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "PRES1_VALUE": {
+                          "type": "number",
+                          "description": "第一参考点压力值（通常为塔顶或冷凝器压力）"
+                        },
+                        "PRES1_UNITS": {
+                          "type": "string",
+                          "enum": [
+                            "atm",
+                            "bar",
+                            "kPa",
+                            "MPa",
+                            "psi"
+                          ],
+                          "description": "第一参考点压力单位"
+                        },
+                        "OPT_PRES_TOP": {
+                          "type": "string",
+                          "enum": [
+                            "DP-COND",
+                            "STAGE-2"
+                          ],
+                          "description": "顶部压力参考选项：DP-COND-冷凝器压降，STAGE-2-塔板2压力"
+                        },
+                        "PRES2_VALUE": {
+                          "type": [
+                            "number",
+                            "null"
+                          ],
+                          "description": "第二参考点压力值（当OPT_PRES_TOP为STAGE-2时使用）"
+                        },
+                        "PRES2_UNITS": {
+                          "type": "string",
+                          "enum": [
+                            "atm",
+                            "bar",
+                            "kPa",
+                            "MPa",
+                            "psi"
+                          ],
+                          "description": "第二参考点压力单位"
+                        },
+                        "DP_COND_VALUE": {
+                          "type": [
+                            "number",
+                            "null"
+                          ],
+                          "minimum": 0,
+                          "description": "冷凝器压降值（当OPT_PRES_TOP为DP-COND时使用）"
+                        },
+                        "DP_COND_UNITS": {
+                          "type": "string",
+                          "enum": [
+                            "atm",
+                            "bar",
+                            "kPa",
+                            "MPa",
+                            "psi"
+                          ],
+                          "description": "冷凝器压降单位"
+                        },
+                        "OPT_PRES": {
+                          "type": "string",
+                          "enum": [
+                            "DP-COL",
+                            "DP-STAGE"
+                          ],
+                          "description": "压力指定方式：DP-COL-塔压降，DP-STAGE-塔板压降"
+                        },
+                        "DP_STAGE_VALUE": {
+                          "type": [
+                            "number",
+                            "null"
+                          ],
+                          "minimum": 0,
+                          "description": "塔板压降值（当OPT_PRES为DP-STAGE时使用）"
+                        },
+                        "DP_STAGE_UNITS": {
+                          "type": "string",
+                          "enum": [
+                            "atm",
+                            "bar",
+                            "kPa",
+                            "MPa",
+                            "psi"
+                          ],
+                          "description": "塔板压降单位"
+                        },
+                        "DP_COL_VALUE": {
+                          "type": [
+                            "number",
+                            "null"
+                          ],
+                          "minimum": 0,
+                          "description": "全塔压降值（当OPT_PRES为DP-COL时使用）"
+                        },
+                        "DP_COL_UNITS": {
+                          "type": "string",
+                          "enum": [
+                            "atm",
+                            "bar",
+                            "kPa",
+                            "MPa",
+                            "psi"
+                          ],
+                          "description": "全塔压降单位"
+                        }
+                      },
+                      "allOf": [
+                        {
+                          "if": {
+                            "properties": {
+                              "OPT_PRES_TOP": {
+                                "const": "DP-COND"
+                              }
+                            },
+                            "required": [
+                              "OPT_PRES_TOP"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "DP_COND_VALUE",
+                              "DP_COND_UNITS"
+                            ],
+                            "properties": {
+                              "DP_COND_VALUE": {
+                                "type": "number",
+                                "minimum": 0
+                              },
+                              "DP_COND_UNITS": {
+                                "type": "string"
+                              },
+                              "PRES2_VALUE": {
+                                "type": "null"
+                              },
+                              "PRES2_UNITS": {
+                                "type": "null"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "if": {
+                            "properties": {
+                              "OPT_PRES_TOP": {
+                                "const": "STAGE-2"
+                              }
+                            },
+                            "required": [
+                              "OPT_PRES_TOP"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "PRES2_VALUE",
+                              "PRES2_UNITS"
+                            ],
+                            "properties": {
+                              "PRES2_VALUE": {
+                                "type": "number",
+                                "minimum": 0
+                              },
+                              "PRES2_UNITS": {
+                                "type": "string"
+                              },
+                              "DP_COND_VALUE": {
+                                "type": "null"
+                              },
+                              "DP_COND_UNITS": {
+                                "type": "null"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "if": {
+                            "properties": {
+                              "OPT_PRES": {
+                                "const": "DP-COL"
+                              }
+                            },
+                            "required": [
+                              "OPT_PRES"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "DP_COL_VALUE",
+                              "DP_COL_UNITS"
+                            ],
+                            "properties": {
+                              "DP_COL_VALUE": {
+                                "type": "number",
+                                "minimum": 0
+                              },
+                              "DP_COL_UNITS": {
+                                "type": "string"
+                              },
+                              "DP_STAGE_VALUE": {
+                                "type": "null"
+                              },
+                              "DP_STAGE_UNITS": {
+                                "type": "null"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "if": {
+                            "properties": {
+                              "OPT_PRES": {
+                                "const": "DP-STAGE"
+                              }
+                            },
+                            "required": [
+                              "OPT_PRES"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "DP_STAGE_VALUE",
+                              "DP_STAGE_UNITS"
+                            ],
+                            "properties": {
+                              "DP_STAGE_VALUE": {
+                                "type": "number",
+                                "minimum": 0
+                              },
+                              "DP_STAGE_UNITS": {
+                                "type": "string"
+                              },
+                              "DP_COL_VALUE": {
+                                "type": "null"
+                              },
+                              "DP_COL_UNITS": {
+                                "type": "null"
+                              }
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "PRES1_VALUE",
+                        "PRES1_UNITS",
+                        "OPT_PRES_TOP",
+                        "OPT_PRES"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 1,
+                    "maxItems": 1
+                  }
+                },
+                "required": [
+                  "VIEW_PRES",
+                  "STAGE_PRES"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "CONDENSER_DATA": {
+            "type": "object",
+            "description": "冷凝器数据",
+            "properties": {
+              "OPT_COND_SPC": {
+                "type": "string",
+                "enum": [
+                  "VFRAC",
+                  "TEMP"
+                ],
+                "default": "VFRAC",
+                "description": "冷凝器规格选项"
+              },
+              "BASIS_RDV_VALUE": {
+                "type": "number",
+                "description": "回流汽相分率数值"
+              },
+              "BASIS_RDV_BASIS": {
+                "type": "string",
+                "enum": [
+                  "MOLE",
+                  "MASS"
+                ],
+                "description": "回流汽相分率基准"
+              },
+              "SC_OPTION": {
+                "type": "string",
+                "enum": [
+                  "REFLUX-AND-DISTILLATE",
+                  "BOILUP-AND-BOTTOM"
+                ],
+                "description": "分流选项"
+              }
+            },
+            "required": [
+              "OPT_COND_SPC",
+              "SC_OPTION"
+            ],
+            "additionalProperties": false
+          },
+          "DESIGN_SPEC_DATA": {
+            "type": "array",
+            "description": "设计规定数据配置",
+            "items": {
+              "type": "object",
+              "properties": {
+                "SPEC_ID": {
+                  "type": "string",
+                  "description": "设计规定ID，如 '1'、'2' 等"
+                },
+                "SPEC_VALUE": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1,
+                  "description": "设计规定目标值"
+                },
+                "SPEC_TYPE_VALUE": {
+                  "type": "string",
+                  "enum": [
+                    "MASS-FRAC",
+                    "MOLE-FRAC",
+                    "MASS-FLOW",
+                    "MOLE-FLOW"
+                  ],
+                  "description": "设计规定类型：MASS-FRAC-质量分数，MOLE-FRAC-摩尔分数，MASS-FLOW-质量流量，MOLE-FLOW-摩尔流量"
+                },
+                "OPT_SPC_STR_VALUE": {
+                  "type": "string",
+                  "enum": [
+                    "PRODUCT",
+                    "INTERNAL",
+                    "DECANTER"
+                  ],
+                  "description": "规定适用的物流类型：PRODUCT-产品，INTERNAL-内部，DECANTER-倾析器"
+                },
+                "COMP_DATA": {
+                  "type": "array",
+                  "description": "涉及的组分列表",
+                  "items": {
+                    "type": "string",
+                    "description": "组分名称，如 'EB'、'STYRENE' 等"
+                  },
+                  "minItems": 1
+                },
+                "SPEC_STREAMS": {
+                  "type": "array",
+                  "description": "适用的物流列表",
+                  "items": {
+                    "type": "string",
+                    "description": "物流名称，如 'ETHBZ-PD'、'STYR-PD' 等"
+                  },
+                  "minItems": 1
+                },
+                "SPEC_VALUE_UNITS": {
+                  "type": ["string", "null"],
+                  "description": "设计规定目标值单位"
+                },
+                "SPEC_DESCRIP": {
+                  "type": ["string", "null"],
+                  "description": "设计规定描述"
+                },
+                "SPEC_STAGE": {
+                  "type": ["integer", "null"],
+                  "minimum": 1,
+                  "description": "设计规定塔板位置"
+                },
+                "SPEC_PHASE": {
+                  "type": ["string", "null"],
+                  "enum": ["L", "V"],
+                  "description": "设计规定相态：L-液相，V-汽相"
+                },
+                "SP_DEC_STRM": {
+                  "type": ["string", "null"],
+                  "description": "设计规定倾析器流股"
+                },
+                "OPT_SPC_RAT": {
+                  "type": ["string", "null"],
+                  "description": "设计规定比率选项"
+                },
+                "BASE_PHASE": {
+                  "type": ["string", "null"],
+                  "enum": ["L", "V"],
+                  "description": "基准相态：L-液相，V-汽相"
+                },
+                "BASE_STAGE": {
+                  "type": ["integer", "null"],
+                  "minimum": 1,
+                  "description": "基准塔板位置"
+                },
+                "OPT_SPC_PRP1": {
+                  "type": ["string", "null"],
+                  "description": "设计规定属性选项1"
+                },
+                "PROPERTY": {
+                  "type": ["string", "null"],
+                  "description": "物性名称"
+                },
+                "OPT_SPC_PRP2": {
+                  "type": ["string", "null"],
+                  "description": "设计规定属性选项2"
+                },
+                "BASE_PROPERT": {
+                  "type": ["string", "null"],
+                  "description": "基准物性"
+                }
+              },
+              "required": [
+                "SPEC_ID",
+                "SPEC_VALUE",
+                "SPEC_TYPE_VALUE",
+                "OPT_SPC_STR_VALUE",
+                "COMP_DATA",
+                "SPEC_STREAMS"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 0
+          },
+          "VARY_DATA": {
+            "type": "array",
+            "description": "变化规定数据配置，数组元素数量必须与DESIGN_SPEC_DATA中保持一致",
+            "items": {
+              "type": "object",
+              "properties": {
+                "VARY_ID": {
+                  "type": "string",
+                  "description": "变化规定ID，如 '1'、'2' 等"
+                },
+                "VARY_VALUE": {
+                  "type": "number",
+                  "minimum": 0,
+                  "description": "与设计规定的目标值DESIGN_SPEC_DATA.SPEC_VALUE保持一致"
+                },
+                "VARTYPE_VALUE": {
+                  "type": "string",
+                  "enum": [
+                    "RR",
+                    "RP",
+                    "B:F",
+                    "D:F",
+                    "D",
+                    "B"
+                  ],
+                  "description": "调整变量类型：RR-回流比，RR-再沸比，B:F-塔底采出与进料比，D:F-馏出液与进料比，D-馏出物流率，B-塔底物流率,变量取值必须与CONFIG_DATA.OP_SPEC.specType中的值设置一致"
+                },
+                "LB_VALUE": {
+                  "type": "number",
+                  "description": "变化范围下限值，当前VARTYPE_VALUE为B:F或D:F时，取值范围为0-1"
+                },
+                "UB_VALUE": {
+                  "type": "number",
+                  "description": "变化范围上限值，当前VARTYPE_VALUE为B:F或D:F时，取值范围为0-1"
+                },
+                "STEP_VALUE": {
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "minimum": 0,
+                  "description": "变化步长，null表示自动步长"
+                },
+                "COMP_DATA": {
+                  "type": "array",
+                  "description": "涉及的组分列表(可选)",
+                  "items": {
+                    "type": "string",
+                    "description": "组分名称"
+                  },
+                  "minItems": 0
+                },
+                "VARY_VALUE_UNITS": {
+                  "type": ["string", "null"],
+                  "description": "变化值单位"
+                },
+                "LB_UNITS": {
+                  "type": ["string", "null"],
+                  "description": "下限值单位"
+                },
+                "UB_UNITS": {
+                  "type": ["string", "null"],
+                  "description": "上限值单位"
+                },
+                "VARY_DESCRIP": {
+                  "type": ["string", "null"],
+                  "description": "变化规定描述"
+                },
+                "VARY_STAGE": {
+                  "type": ["integer", "null"],
+                  "minimum": 1,
+                  "description": "变化塔板位置"
+                },
+                "VARY_STREAM": {
+                  "type": ["string", "null"],
+                  "description": "变化流股名称"
+                },
+                "VARY_STAGE1": {
+                  "type": ["integer", "null"],
+                  "minimum": 1,
+                  "description": "变化塔板位置1"
+                },
+                "VARY_STAGE2": {
+                  "type": ["integer", "null"],
+                  "minimum": 1,
+                  "description": "变化塔板位置2"
+                }
+              },
+              "required": [
+                "VARY_ID",
+                "VARY_VALUE",
+                "VARTYPE_VALUE",
+                "LB_VALUE",
+                "UB_VALUE",
+                "STEP_VALUE",
+                "COMP_DATA"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "CONFIG_DATA",
+          "PRES_DATA",
+          "CONDENSER_DATA"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "additionalProperties": false
+  }
+}

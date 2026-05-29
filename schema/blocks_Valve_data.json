@@ -1,0 +1,45 @@
+{
+  "blocks_Valve_data": {
+    "type": "object",
+    "description": "阀门配置数据",
+    "patternProperties": {
+      "^[A-Z][0-9A-Z]*$": {
+        "type": "object",
+        "properties": {
+          "JOB_DATA": {
+            "type": "object",
+            "properties": {
+              "MODE": {
+                "type": "string",
+                "default": "ADIAB-FLASH",
+                "description": "压力值计算类型,默认值ADIAB-FLASH，表示指定出口压力下绝热闪蒸"
+              },
+              "P_OUT_VALUE": {
+                "type": "number"
+              },
+              "P_OUT_UNITS": {
+                "type": "string"
+              },
+              "FLASH_MAXIT": {
+                "type": "integer"
+              },
+              "FLASH_TOL": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "MODE",
+              "P_OUT_VALUE",
+              "P_OUT_UNITS",
+              "FLASH_MAXIT",
+              "FLASH_TOL"
+            ]
+          }
+        },
+        "required": [
+          "JOB_DATA"
+        ]
+      }
+    }
+  }
+}

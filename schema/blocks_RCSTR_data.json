@@ -1,0 +1,176 @@
+{
+  "blocks_RCSTR_data": {
+    "type": "object",
+    "description": "全混釜反应器（RCSTR）配置数据",
+    "patternProperties": {
+      "^[A-Z][0-9A-Z]*$": {
+        "type": "object",
+        "properties": {
+          "SPEC_DATA": {
+            "type": "object",
+            "properties": {
+              "HTRANMODE": {
+                "type": "string",
+                "description": "传热模式"
+              },
+              "PRES_VALUE": {
+                "type": "number"
+              },
+              "PRES_UNITS": {
+                "type": "string"
+              },
+              "SPEC_OPT": {
+                "type": "string"
+              },
+              "NPHASE": {
+                "type": "string"
+              },
+              "TEMP_VALUE": {
+                "type": "number"
+              },
+              "TEMP_UNITS": {
+                "type": "string"
+              },
+              "DUTY_VALUE": {
+                "type": "number"
+              },
+              "DUTY_UNITS": {
+                "type": "string"
+              },
+              "VFRAC": {
+                "type": "number"
+              },
+              "SPEC_TYPE": {
+                "type": "string"
+              },
+              "SPEC_PHASE": {
+                "type": "string"
+              },
+              "REACT_VOL_VALUE": {
+                "type": "number"
+              },
+              "REACT_VOL_UNITS": {
+                "type": "string"
+              },
+              "REACT_VOL_FR": {
+                "type": "number"
+              },
+              "PH_RES_TIME_VALUE": {
+                "type": "number"
+              },
+              "PH_RES_TIME_UNITS": {
+                "type": "string"
+              },
+              "PHASE": {
+                "type": "string"
+              },
+              "VOL_VALUE": {
+                "type": "number"
+              },
+              "VOL_UNITS": {
+                "type": "string"
+              },
+              "RES_TIME_VALUE": {
+                "type": "number"
+              },
+              "RES_TIME_UNITS": {
+                "type": "string"
+              },
+              "CHK_MASSTR": {
+                "type": "string"
+              },
+              "REACSYS": {
+                "type": "string"
+              },
+              "RXN_ID": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "SUBBYPASS_VALUE": {
+                "type": "number"
+              },
+              "SUBBYPASS_UNITS": {
+                "type": "string"
+              },
+              "CRYSTSYS": {
+                "type": "string"
+              },
+              "LOWER_VALUE": {
+                "type": "number"
+              },
+              "LOWER_UNITS": {
+                "type": "string"
+              },
+              "SUB_RRSBN_VALUE": {
+                "type": "number"
+              },
+              "SUB_RRSBN_UNITS": {
+                "type": "string"
+              },
+              "SUB_STDDEV_VALUE": {
+                "type": "number"
+              },
+              "SUB_STDDEV_UNITS": {
+                "type": "string"
+              },
+              "S_OPT_VALUE": {
+                "type": "number"
+              },
+              "S_OPT_UNITS": {
+                "type": "string"
+              },
+              "USER_SLOWER_VALUE": {
+                "type": "number"
+              },
+              "USER_SLOWER_UNITS": {
+                "type": "string"
+              },
+              "USER_SVALUE_VALUE": {
+                "type": "number"
+              },
+              "USER_SVALUE_UNITS": {
+                "type": "string"
+              },
+              "AGITATOR": {
+                "type": "string"
+              },
+              "AGITRATE_VALUE": {
+                "type": "number"
+              },
+              "AGITRATE_UNITS": {
+                "type": "string"
+              },
+              "IMPELLR_DIAM_VALUE": {
+                "type": "number"
+              },
+              "IMPELLR_DIAM_UNITS": {
+                "type": "string"
+              },
+              "POWERNUMBER": {
+                "type": "number"
+              },
+              "OPT_PSD": {
+                "type": "string"
+              },
+              "CONST_METHOD": {
+                "type": "string"
+              },
+              "OPT_SUBPSD": {
+                "type": "string"
+              },
+              "OPT_OVERALL": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "required": [
+          "SPEC_DATA"
+        ],
+        "additionalProperties": false
+      }
+    }
+  }
+}
