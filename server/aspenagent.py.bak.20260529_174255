@@ -227,8 +227,6 @@ class AspenSimulationManager:
 
     def add_if_not_empty(self, data_dict, node, value_key, unit_key=None, basis_key=None):
         """如果值不为空，则将其添加到字典中"""
-        if node is None:
-            return
         if value_key in data_dict and unit_key in data_dict and data_dict[
             value_key] is not None and basis_key is not None:
             node.SetValueUnitAndBasis(data_dict[value_key], self.convert_unitstr(data_dict[unit_key]),
@@ -297,17 +295,14 @@ class AspenSimulationManager:
             try:
                 aname1_node = self.aspen.Tree.FindNode(r"\Data\Components\Specifications\Input\ANAME1")
                 casn_node = self.aspen.Tree.FindNode(r"\Data\Components\Specifications\Input\CASN")
-                actual_count = 0
                 for i, component in enumerate(config.get('components', [])):
-                    aname1_node.Elements.InsertRow(0, 0)
-                    aname1_node.Elements.LabelNode(0, 0)[0].Value = component['cid']
-                    aname1_node.Elements(0).Value = component['name']
-                    casn_node.Elements(0).Value = component['cas_number']
-                    actual_count += 1
-                    print(f"添加组分成功:{component['name']}")
-                if len(config.get('components', [])) > 0 and actual_count == 0:
-                    print(f"WARNING: {len(config['components'])} 个组分定义未被写入，请检查 components 字段。")
-                print(f"成功添加组分 ({actual_count}/{len(config.get('components', []))})")
+                    if component.get('database_name') is not None:  # 只添加有数据库名称的组分
+                        aname1_node.Elements.InsertRow(0, 0)
+                        aname1_node.Elements.LabelNode(0, 0)[0].Value = component['cid']
+                        aname1_node.Elements(0).Value = component['name']
+                        casn_node.Elements(0).Value = component['cas_number']
+                        print(f"添加组分成功:{component['name']}")
+                print("成功添加组分")
             except Exception as e:
                 print(f"在添加组分时出错: {e}")
                 raise
@@ -434,8 +429,11 @@ class AspenSimulationManager:
                 TEMP_NODE = self.aspen.Tree.FindNode(fr"\Data\Streams\{stream}\Input\TEMP\MIXED")
                 VFRAC_NODE = self.aspen.Tree.FindNode(fr"\Data\Streams\{stream}\Input\VFRAC\MIXED")
                 if stream_data_detail["MIXED_SPEC"] == "TP":
-                    self.add_if_not_empty(stream_data_detail["pressure"], PRES_NODE, "PRES_VALUE", "PRES_UNITS")
-                    self.add_if_not_empty(stream_data_detail["temperature"], TEMP_NODE, "TEMP_VALUE", "TEMP_UNITS")
+                    if 'pressure' in stream_data_detail:
+                        if stream_data_detail["pressure"]["PRES_VALUE"] is not None:
+                            PRES_NODE.SetValueAndUnit(stream_data_detail["pressure"]["PRES_VALUE"], self.convert_unitstr(stream_data_detail["pressure"]["PRES_UNITS"]))
+                        if stream_data_detail["temperature"]["TEMP_VALUE"] is not None:
+                            TEMP_NODE.SetValueAndUnit(stream_data_detail["temperature"]["TEMP_VALUE"], self.convert_unitstr(stream_data_detail["temperature"]["TEMP_UNITS"]))
                 elif stream_data_detail["MIXED_SPEC"] == "TV":
                     self.add_if_not_empty(stream_data_detail["temperature"], TEMP_NODE, "TEMP_VALUE", "TEMP_UNITS")
                     self.add_if_not_empty(stream_data_detail["vfrac"], VFRAC_NODE, "VFRAC_VALUE")
